@@ -3,457 +3,538 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080d13">
-<title>Zarautz Sostenible · Construye el futuro</title>
-<meta name="description" content="Participa en la transformación sostenible de Zarautz con misiones, propuestas y acciones ciudadanas.">
-<link rel="preconnect" href="https://unpkg.com">
-<link rel="preconnect" href="https://tile.openstreetmap.org">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f6ef">
+<meta name="description" content="Participa en el futuro sostenible de Zarautz.">
+<title>Zarautz Sostenible — El futuro es nuestro</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --bg:#080d13; --panel:rgba(19,29,41,.78); --panel2:#111d29;
-  --line:rgba(255,255,255,.1); --text:#eef7fb; --muted:#8da2b4;
-  --cyan:#55f0d0; --blue:#64aaff; --gold:#f8d48a;
-  --red:#ff8190; --radius:22px;
+  --bg:#f5f6ef;
+  --ink:#183b35;
+  --muted:#758780;
+  --green:#b9ef76;
+  --green-dark:#285d4c;
+  --teal:#d9eee5;
+  --white:#fffefa;
+  --line:#e5e9df;
+  --radius:25px;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:
-    radial-gradient(ellipse at 10% 0%,rgba(39,120,139,.2),transparent 38%),
-    radial-gradient(ellipse at 100% 25%,rgba(64,91,168,.15),transparent 35%),
-    var(--bg);
-  min-height:100vh;
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'DM Sans',sans-serif;
 }
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-a{color:var(--cyan)}
-.wrap{width:min(1200px,92%);margin:auto}
-header{
-  position:sticky;top:0;z-index:1000;
-  background:rgba(8,13,19,.8);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line)
+button { font:inherit; cursor:pointer; }
+button:focus-visible { outline:3px solid #65a78b; outline-offset:4px; }
+.wrap { max-width:1120px; margin:auto; padding:0 26px; }
+nav {
+  height:82px; display:flex; align-items:center;
+  justify-content:space-between; gap:15px;
 }
-.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 0}
-.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:-.5px}
-.logo{
-  display:grid;place-items:center;width:42px;height:42px;border-radius:14px;
-  color:#061713;background:linear-gradient(135deg,var(--cyan),#85b9ff);
-  box-shadow:0 0 30px #55f0d028;font-size:21px
+.brand { display:flex; align-items:center; gap:11px; font-weight:800; letter-spacing:-.6px; }
+.brand-mark {
+  display:grid; place-items:center; width:39px; height:39px;
+  border-radius:14px; background:var(--green); font-size:21px;
 }
-.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:3px}
-nav{display:flex;gap:8px;flex-wrap:wrap}
-nav a{text-decoration:none;color:#b9c8d4;font-size:12px;padding:9px 11px;border-radius:12px}
-nav a:hover{background:#ffffff10;color:white}
-.hero{padding:68px 0 42px;display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}
-.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--cyan);font-weight:800}
-h1{font-size:clamp(40px,6.5vw,76px);line-height:.99;letter-spacing:-4px;margin:18px 0}
-h1 span{color:var(--cyan)}
-h2{font-size:clamp(25px,4vw,36px);letter-spacing:-1.2px;margin:8px 0}
-h3{margin:0 0 9px}
-p{line-height:1.65}
-.lead{color:#aabccc;font-size:17px;max-width:650px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.btn{
-  border:1px solid var(--line);border-radius:13px;padding:12px 16px;
-  color:var(--text);background:#ffffff08;text-decoration:none;display:inline-flex;
-  justify-content:center;align-items:center;gap:8px;font-weight:750;font-size:13px
+.nav-tag {
+  padding:9px 14px; border:1px solid var(--line);
+  border-radius:30px; font-size:12px; font-weight:700;
+  color:var(--green-dark); background:#ffffff8c;
 }
-.btn.primary{background:var(--cyan);color:#071714;border-color:var(--cyan)}
-.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
-.glass{
-  border:1px solid var(--line);background:linear-gradient(145deg,#ffffff0c,#ffffff03);
-  backdrop-filter:blur(18px);border-radius:var(--radius);
-  box-shadow:0 22px 70px #0003,inset 0 1px #ffffff0b
+.hero {
+  position:relative; overflow:hidden; border-radius:34px;
+  background:#173f37; color:white; padding:clamp(32px,6vw,70px);
+  min-height:365px; display:flex; align-items:center;
 }
-.hero-card{padding:25px;position:relative;overflow:hidden}
-.hero-card:before{content:"";position:absolute;width:220px;height:220px;right:-100px;top:-100px;border-radius:50%;background:#55f0d018;filter:blur(5px)}
-.hero-card>*{position:relative}
-.profile-row{display:flex;align-items:center;gap:14px;margin-bottom:22px}
-.avatar{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(140deg,#55f0d0,#679fff);color:#071714;font-size:23px;font-weight:900}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{padding:14px 10px;border-radius:15px;background:#ffffff07;border:1px solid #ffffff0a}
-.stat strong{font-size:23px;display:block;letter-spacing:-1px}
-.stat span{font-size:10px;color:var(--muted)}
-.progress{height:7px;background:#ffffff12;border-radius:20px;overflow:hidden;margin:10px 0}
-.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .3s}
-.section{padding:42px 0}
-.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:22px}
-.section-head p{margin:5px 0;color:var(--muted);max-width:620px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.card{padding:21px;min-width:0}
-.tag{display:inline-flex;padding:6px 9px;border:1px solid #55f0d02a;border-radius:100px;background:#55f0d00c;color:var(--cyan);font-size:10px;font-weight:800;letter-spacing:.5px}
-.card h3{margin-top:14px;font-size:18px;letter-spacing:-.4px}
-.card p{font-size:13px;color:#a9bac8}
-.card-meta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:16px;font-size:12px}
-.xp{color:var(--gold);font-weight:850}
-.locked{opacity:.6}
-.locked .tag{color:var(--gold);border-color:#f8d48a30}
-.mission-proof{padding:11px;border:1px solid var(--line);border-radius:12px;background:#05090e50;color:#c6d5df;font-size:12px;margin:12px 0}
-.mission-check{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--cyan);margin-top:15px}
-.mission-check input{accent-color:var(--cyan);width:17px;height:17px}
-.map-layout{display:grid;grid-template-columns:1.4fr .6fr;gap:15px}
-#map{height:440px;border-radius:20px;background:#101b26;border:1px solid var(--line);z-index:1}
-.map-side{padding:20px}
-.legend{display:flex;gap:13px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin:12px 0}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
-.map-list{display:grid;gap:9px;margin-top:17px}
-.map-item{border:1px solid var(--line);border-radius:12px;padding:11px;display:flex;justify-content:space-between;gap:8px;font-size:12px}
-.map-item button{border:0;background:none;color:var(--cyan);font-size:12px}
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
-.filter{border:1px solid var(--line);background:#ffffff06;color:#b7c7d4;border-radius:100px;padding:9px 13px;font-size:11px}
-.filter.active{background:#55f0d018;color:var(--cyan);border-color:#55f0d060}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:grid;gap:7px}
-.field.full{grid-column:1/-1}
-label{font-size:12px;color:#aabccc}
-input,textarea,select{
-  width:100%;background:#080e15;border:1px solid #ffffff19;border-radius:12px;
-  color:var(--text);padding:12px;outline:none
+.hero:before {
+  content:""; position:absolute; width:350px; height:350px;
+  border-radius:50%; right:-45px; top:70px;
+  background:linear-gradient(140deg,#b8ed78,#60b99b);
+  opacity:.95;
 }
-input:focus,textarea:focus,select:focus{border-color:#55f0d080}
-textarea{resize:vertical;min-height:100px}
-.form-actions{margin-top:13px}
-.log-list{display:grid;gap:10px;margin-top:15px}
-.log-entry{border:1px solid var(--line);background:#ffffff05;padding:14px;border-radius:13px}
-.log-entry strong{font-size:13px}
-.log-entry p{font-size:12px;color:#a9bac8;margin:6px 0}
-.log-entry small{color:var(--muted)}
-.survey-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.question{padding:18px}
-.question p{margin:0 0 13px;font-size:13px}
-.options{display:flex;gap:8px;flex-wrap:wrap}
-.options label{display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:10px;padding:8px;font-size:11px}
-.options input{width:auto;accent-color:var(--cyan)}
-.result-bar{height:7px;border-radius:10px;background:#ffffff10;overflow:hidden;margin-top:9px}
-.result-bar div{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue))}
-.notice{font-size:12px;color:var(--muted);padding:13px;border:1px solid var(--line);border-radius:13px;margin-top:15px}
-footer{padding:32px 0;border-top:1px solid var(--line);margin-top:35px;color:var(--muted);font-size:12px}
-footer .wrap{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#111d29;color:#eef7fb}
-.leaflet-popup-content{line-height:1.55}
-.leaflet-container a.leaflet-popup-close-button{color:white}
-.leaflet-control-zoom a{background:#111d29!important;color:white!important;border-color:#ffffff20!important}
-@media(max-width:850px){
- .hero{grid-template-columns:1fr;padding-top:45px}
- .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
- .map-layout{grid-template-columns:1fr}
- nav{display:none}
+.hero:after {
+  content:""; position:absolute; width:255px; height:255px;
+  border-radius:50%; right:12px; top:105px;
+  border:1px solid #ffffff65;
+  box-shadow:0 0 0 27px #ffffff0c,0 0 0 54px #ffffff0b;
 }
-@media(max-width:560px){
- .grid,.survey-grid,.form-grid{grid-template-columns:1fr}
- .field.full{grid-column:auto}
- .section-head{display:block}
- h1{letter-spacing:-2.5px}
- .hero{gap:22px}
- #map{height:350px}
- .stats{gap:6px}
- .stat strong{font-size:19px}
+.hero-content { position:relative; z-index:1; max-width:610px; }
+.eyebrow {
+  display:inline-flex; gap:9px; align-items:center;
+  color:#d1f3b0; font-size:11px; font-weight:800;
+  text-transform:uppercase; letter-spacing:1.7px;
+}
+.dot { width:7px; height:7px; border-radius:50%; background:var(--green); }
+h1,h2,h3,p { margin-top:0; }
+h1 {
+  margin:22px 0 18px; font-family:Manrope,sans-serif;
+  font-size:clamp(39px,6vw,70px); line-height:1.02;
+  letter-spacing:-3.8px; font-weight:800;
+}
+h1 span { color:var(--green); }
+.hero p { color:#d4e5dd; font-size:16px; line-height:1.8; max-width:440px; margin-bottom:27px; }
+.hero-actions { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.btn {
+  border:0; border-radius:15px; padding:15px 20px;
+  font-weight:800; transition:transform .2s,background .2s;
+}
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:var(--green); color:#183b35; }
+.btn-secondary { background:#ffffff12; border:1px solid #ffffff35; color:white; }
+.hero-note { font-size:12px; color:#d4e5dd; }
+.intro {
+  display:flex; justify-content:space-between; align-items:end;
+  gap:20px; margin:58px 0 25px;
+}
+.section-label {
+  color:#668477; font-size:11px; letter-spacing:1.6px;
+  text-transform:uppercase; font-weight:800; margin-bottom:12px;
+}
+.intro h2 { font:800 clamp(27px,4vw,38px)/1.15 Manrope,sans-serif; letter-spacing:-1.5px; margin-bottom:9px; }
+.intro p { color:var(--muted); line-height:1.65; margin:0; max-width:540px; }
+.step-count {
+  background:var(--white); border:1px solid var(--line);
+  padding:11px 15px; border-radius:14px; white-space:nowrap;
+  font-size:12px; font-weight:800;
+}
+.quiz-layout {
+  display:grid; grid-template-columns:minmax(0,1fr) 235px;
+  gap:20px; align-items:start;
+}
+.quiz-card,.side-card,.results-card {
+  background:var(--white); border:1px solid var(--line);
+  border-radius:var(--radius);
+}
+.quiz-card { padding:clamp(22px,4vw,40px); }
+.progress-head {
+  display:flex; justify-content:space-between; gap:10px;
+  color:var(--muted); font-size:12px; font-weight:700; margin-bottom:12px;
+}
+.progress-track { height:6px; border-radius:20px; background:#eaf0e8; overflow:hidden; }
+.progress-fill { height:100%; width:20%; border-radius:20px; background:var(--green-dark); transition:width .3s; }
+.question-kicker {
+  margin-top:32px; color:#5b8975; font-size:11px;
+  font-weight:800; text-transform:uppercase; letter-spacing:1.4px;
+}
+.question-title {
+  font:800 clamp(24px,3.4vw,34px)/1.2 Manrope,sans-serif;
+  letter-spacing:-1.1px; margin:12px 0 10px;
+}
+.question-desc { color:var(--muted); line-height:1.65; font-size:14px; margin-bottom:24px; }
+.options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.option {
+  display:flex; align-items:flex-start; text-align:left; gap:13px;
+  min-height:108px; padding:17px; border:1.5px solid var(--line);
+  border-radius:18px; background:#fffefa; color:var(--ink);
+  transition:all .18s; position:relative;
+}
+.option:hover { border-color:#8eb9a0; transform:translateY(-2px); }
+.option.selected { border-color:#47866b; background:#eaf5e9; box-shadow:0 0 0 2px #47866b14; }
+.option-icon {
+  display:grid; place-items:center; flex-shrink:0;
+  width:39px; height:39px; border-radius:13px;
+  background:#edf2e8; font-size:20px;
+}
+.option.selected .option-icon { background:var(--green); }
+.option-text { display:block; padding-right:10px; }
+.option-title { display:block; font-size:13px; font-weight:800; line-height:1.4; margin:3px 0 5px; }
+.option-sub { display:block; font-size:11px; color:var(--muted); line-height:1.45; }
+.check {
+  position:absolute; right:12px; top:12px; width:18px; height:18px;
+  border-radius:50%; border:1.5px solid #dce4d9;
+}
+.option.selected .check { background:var(--green-dark); border-color:var(--green-dark); }
+.option.selected .check:after {
+  content:"✓"; color:white; font-size:12px; display:grid; place-items:center;
+}
+.quiz-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-top:28px; padding-top:22px; border-top:1px solid var(--line);
+}
+.back-btn { border:0; background:transparent; color:var(--muted); padding:13px 4px; font-weight:700; }
+.back-btn:disabled { opacity:.3; cursor:default; }
+.next-btn { background:var(--ink); color:white; min-width:155px; }
+.next-btn:disabled { opacity:.35; cursor:not-allowed; transform:none; }
+.side-card { padding:23px; }
+.side-icon {
+  display:grid; place-items:center; width:45px; height:45px;
+  border-radius:15px; background:#e7f3e7; font-size:23px; margin-bottom:18px;
+}
+.side-card h3 { font:800 18px/1.3 Manrope,sans-serif; letter-spacing:-.5px; margin-bottom:10px; }
+.side-card p { font-size:12px; line-height:1.75; color:var(--muted); margin-bottom:19px; }
+.side-line { height:1px; background:var(--line); margin:18px 0; }
+.side-stat { display:flex; justify-content:space-between; gap:8px; font-size:12px; }
+.side-stat span { color:var(--muted); }
+.side-stat strong { font-weight:800; }
+.results { display:none; }
+.results.visible { display:block; animation:appear .45s ease; }
+@keyframes appear { from {opacity:0;transform:translateY(12px)} to {opacity:1;transform:translateY(0)} }
+.results-head {
+  background:#173f37; color:white; border-radius:28px;
+  padding:clamp(27px,5vw,45px); margin-bottom:20px;
+}
+.results-head .section-label { color:#c4e6a6; }
+.results-head h2 { font:800 clamp(29px,5vw,46px)/1.12 Manrope,sans-serif; letter-spacing:-1.8px; margin-bottom:12px; }
+.results-head p { color:#d2e2d9; line-height:1.7; margin-bottom:0; max-width:580px; }
+.stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.stat-box { padding:22px; border-radius:19px; background:var(--white); border:1px solid var(--line); }
+.stat-box span { display:block; color:var(--muted); font-size:12px; margin-bottom:10px; }
+.stat-box strong { font:800 clamp(25px,4vw,36px)/1 Manrope,sans-serif; letter-spacing:-1.5px; }
+.results-card { padding:clamp(22px,4vw,34px); margin-bottom:20px; }
+.results-card h3 { font:800 22px Manrope,sans-serif; letter-spacing:-.8px; margin-bottom:7px; }
+.results-card > p { color:var(--muted); font-size:13px; line-height:1.6; }
+.chart-list { display:grid; gap:21px; margin-top:27px; }
+.chart-item { display:grid; gap:9px; }
+.chart-label { display:flex; justify-content:space-between; gap:12px; font-size:13px; font-weight:700; }
+.chart-label span:last-child { color:#648174; white-space:nowrap; }
+.bar-track { height:10px; background:#edf0e8; border-radius:20px; overflow:hidden; }
+.bar-fill { height:100%; width:0; border-radius:20px; background:linear-gradient(90deg,#73b993,#b9ef76); transition:width .8s ease; }
+.answer-list { display:grid; gap:0; }
+.answer-row { display:flex; gap:13px; padding:15px 0; border-bottom:1px solid var(--line); }
+.answer-row:last-child { border-bottom:0; }
+.answer-emoji { display:grid; place-items:center; width:40px; height:40px; flex-shrink:0; background:#edf4e8; border-radius:13px; }
+.answer-row small { color:var(--muted); display:block; font-size:11px; margin-bottom:5px; }
+.answer-row strong { font-size:13px; line-height:1.5; }
+.results-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.results-actions .btn-primary { background:var(--ink); color:white; }
+.results-actions .btn-secondary { color:var(--ink); background:transparent; border:1px solid var(--line); }
+footer { margin-top:75px; border-top:1px solid var(--line); padding:28px 0 36px; }
+.footer-inner { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--muted); font-size:12px; line-height:1.6; }
+.footer-inner strong { color:var(--ink); }
+.hidden { display:none !important; }
+@media(max-width:780px) {
+  .quiz-layout { grid-template-columns:1fr; }
+  .side-card { display:grid; grid-template-columns:auto 1fr; gap:0 15px; }
+  .side-icon { grid-row:span 2; }
+  .side-card h3 { margin-bottom:5px; }
+  .side-card p { margin-bottom:0; }
+  .side-extra { display:none; }
+  .hero:before { right:-210px; opacity:.3; }
+  .hero:after { right:-155px; opacity:.3; }
+}
+@media(max-width:520px) {
+  .wrap { padding:0 15px; }
+  nav { height:70px; }
+  .brand { font-size:13px; }
+  .nav-tag { font-size:10px; padding:8px 10px; }
+  .hero { padding:30px 24px; border-radius:25px; min-height:390px; }
+  h1 { letter-spacing:-2.5px; }
+  .hero p { font-size:14px; }
+  .intro { margin-top:43px; align-items:flex-start; flex-direction:column; }
+  .quiz-card { padding:21px 17px; border-radius:21px; }
+  .options { grid-template-columns:1fr; gap:9px; }
+  .option { min-height:83px; padding:13px; align-items:center; }
+  .option-icon { width:43px; height:43px; }
+  .question-kicker { margin-top:26px; }
+  .quiz-footer { gap:8px; }
+  .next-btn { min-width:0; padding:14px 17px; }
+  .stat-grid { gap:7px; }
+  .stat-box { padding:14px 11px; }
+  .stat-box span { font-size:10px; line-height:1.4; }
+  .stat-box strong { font-size:25px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
 }
 </style>
 </head>
 <body>
-<header>
- <div class="wrap nav">
-  <a href="#inicio" class="brand" style="text-decoration:none;color:inherit">
-   <div class="logo">Z</div><div>ZARAUTZ SOSTENIBLE<small>HIRIA · ETORKIZUNA</small></div>
-  </a>
+<div class="wrap">
   <nav>
-   <a href="#misiones">Misiones</a><a href="#mapa">Mapa</a><a href="#diario">Diario</a><a href="#encuesta">Encuesta</a>
+    <div class="brand">
+      <div class="brand-mark">↗</div>
+      <span>ZARAUTZ <span style="color:#709783">SOSTENIBLE</span></span>
+    </div>
+    <div class="nav-tag">🌱 Un futuro compartido</div>
   </nav>
-  <a class="btn primary" href="#misiones">Participar ↗</a>
- </div>
-</header>
 
-<main class="wrap">
-<section class="hero" id="inicio">
- <div>
-  <div class="eyebrow">Una ciudad mejor se construye entre todos</div>
-  <h1>El futuro de<br>Zarautz <span>empieza aquí.</span></h1>
-  <p class="lead">Detecta problemas reales, transforma ideas en propuestas y participa en misiones ciudadanas para hacer Zarautz más accesible, habitable y sostenible.</p>
-  <div class="actions">
-   <a class="btn primary" href="#misiones">Explorar misiones ↗</a>
-   <a class="btn" href="#mapa">Descubrir el mapa</a>
-  </div>
-  <p class="muted small">01 / OBSERVAR · 02 / PROPONER · 03 / ACTUAR</p>
- </div>
- <div class="glass hero-card">
-  <div class="profile-row">
-   <div class="avatar" id="avatar">Z</div>
-   <div style="flex:1">
-    <label for="profileName">TU PERFIL CIUDADANO</label>
-    <input id="profileName" placeholder="¿Cómo te llamas?" maxlength="32" style="margin-top:6px">
-   </div>
-  </div>
-  <div class="stats">
-   <div class="stat"><strong id="totalXp">0</strong><span>XP CONSEGUIDOS</span></div>
-   <div class="stat"><strong id="placesDone">0 / 7</strong><span>MISIONES</span></div>
-   <div class="stat"><strong id="level">01</strong><span>NIVEL</span></div>
-  </div>
-  <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:12px">
-   <span class="muted">Progreso de la comunidad</span><strong id="progressLabel">0%</strong>
-  </div>
-  <div class="progress"><div id="progressBar"></div></div>
-  <p class="muted small" id="levelMessage">Cada misión suma una mejora potencial para Zarautz.</p>
- </div>
-</section>
+  <header class="hero">
+    <div class="hero-content">
+      <div class="eyebrow"><span class="dot"></span> La transformación empieza contigo</div>
+      <h1>El futuro de<br>Zarautz <span>lo hacemos.</span></h1>
+      <p>Una localidad mejor se construye escuchando a quienes viven en ella. Comparte tus ideas y ayúdanos a imaginar un Zarautz más sostenible.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="startQuiz()">Participar ahora <span aria-hidden="true">↗</span></button>
+        <span class="hero-note">5 preguntas · 2 minutos</span>
+      </div>
+    </div>
+  </header>
 
-<section class="section" id="misiones">
- <div class="section-head">
-  <div><div class="eyebrow">Retos con impacto local</div><h2>Misiones ciudadanas</h2>
-   <p>No son retos simbólicos: identifica una necesidad y conviértela en una propuesta concreta. Las misiones avanzadas se desbloquean al completar las anteriores.</p>
-  </div>
-  <div class="tag">7 MISIONES · 375 XP</div>
- </div>
- <div class="filters" id="filters">
-  <button class="filter active" data-filter="all">Todas</button>
-  <button class="filter" data-filter="community">Comunidad</button>
-  <button class="filter" data-filter="nature">Espacio público</button>
-  <button class="filter" data-filter="walk">Movilidad</button>
- </div>
- <div class="grid" id="ecoCards"></div>
- <p class="notice">Las misiones y los puntos son una dinámica participativa del sitio, no una certificación oficial ni una garantía de que las propuestas hayan sido aprobadas por el Ayuntamiento. Marca una misión como completada cuando hayas realizado la actividad.</p>
-</section>
+  <section id="survey">
+    <div class="intro">
+      <div>
+        <div class="section-label">Tu voz cuenta</div>
+        <h2>Imagina el Zarautz del mañana.</h2>
+        <p>Elige las opciones que mejor representan tus ideas. No hay respuestas correctas o incorrectas.</p>
+      </div>
+      <div class="step-count" id="topStep">PREGUNTA 01 / 05</div>
+    </div>
 
-<section class="section" id="mapa">
- <div class="section-head"><div><div class="eyebrow">Territorio vivo</div><h2>Mapa de misiones</h2><p>Explora los puntos de referencia. Completa misiones para avanzar y descubrir los siguientes retos.</p></div></div>
- <div class="map-layout">
-  <div id="map" aria-label="Mapa interactivo de Zarautz"></div>
-  <aside class="glass map-side">
-   <h3>Tu recorrido</h3><p class="muted small">Cada punto representa una misión. Las ubicaciones son referencias aproximadas para explorar la zona; no indican proyectos oficiales.</p>
-   <div class="legend">
-    <span><i class="dot" style="background:#55f0d0"></i>Disponible</span>
-    <span><i class="dot" style="background:#f8d48a"></i>Bloqueada</span>
-    <span><i class="dot" style="background:#64aaff"></i>Completada</span>
-   </div>
-   <div class="map-list" id="mapList"></div>
-  </aside>
- </div>
-</section>
+    <div class="quiz-layout" id="quizLayout">
+      <main class="quiz-card" id="quizCard">
+        <div class="progress-head">
+          <span id="progressLabel">Tu cuestionario</span>
+          <span id="progressPercent">20 %</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
-<section class="section" id="diario">
- <div class="section-head"><div><div class="eyebrow">Ideas que dejan huella</div><h2>Diario de acciones</h2><p>Registra problemas detectados, propuestas o pequeñas acciones realizadas en Zarautz.</p></div></div>
- <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">
-  <div class="glass card">
-   <h3>Nueva entrada</h3>
-   <form id="logForm">
-    <div class="field"><label for="logTitle">Título</label><input id="logTitle" required maxlength="90" placeholder="Ej. Cruce difícil para peatones"></div>
-    <div class="field" style="margin-top:12px"><label for="logType">Tipo de acción</label><select id="logType"><option>Problema detectado</option><option>Propuesta de mejora</option><option>Acción realizada</option><option>Idea para el barrio</option></select></div>
-    <div class="field" style="margin-top:12px"><label for="logArea">Zona o barrio (opcional)</label><input id="logArea" maxlength="100" placeholder="Lugar aproximado"></div>
-    <div class="field" style="margin-top:12px"><label for="logText">Descripción</label><textarea id="logText" required maxlength="1500" placeholder="¿Qué ocurre? ¿A quién afecta? ¿Qué propones?"></textarea></div>
-    <div class="form-actions"><button class="btn primary" type="submit">Guardar en mi diario ↗</button></div>
-   </form>
-  </div>
-  <div class="glass card">
-   <h3>Mi actividad</h3><p class="muted small">Tus entradas guardadas en este navegador.</p>
-   <div id="logList" class="log-list"><p class="muted small">Todavía no has registrado acciones.</p></div>
-   <button id="clearLog" class="btn" type="button" style="margin-top:14px">Borrar mi diario</button>
-  </div>
- </div>
-</section>
+        <div class="question-kicker" id="questionKicker">01 — Prioridades</div>
+        <h2 class="question-title" id="questionTitle"></h2>
+        <p class="question-desc" id="questionDesc"></p>
+        <div class="options" id="options" role="group" aria-label="Opciones de respuesta"></div>
 
-<section class="section" id="encuesta">
- <div class="section-head"><div><div class="eyebrow">Tu opinión importa</div><h2>Encuesta de prioridades</h2><p>Indica qué mejoras consideras prioritarias para el futuro de Zarautz.</p></div></div>
- <form id="surveyForm"><div class="survey-grid" id="surveyQuestions"></div>
-  <div class="actions"><button class="btn primary" type="submit">Ver mi resumen</button><button class="btn" type="button" id="resetSurvey">Limpiar respuestas</button></div>
- </form>
- <div class="glass card" id="surveyResult" hidden style="margin-top:18px">
-  <h3>Tu resumen de prioridades</h3><p class="muted small">Este resumen refleja tus respuestas, no una encuesta representativa de toda Zarautz.</p><div id="surveyBars"></div>
- </div>
-</section>
-</main>
+        <div class="quiz-footer">
+          <button class="back-btn" id="backBtn" onclick="previousQuestion()" disabled>← Anterior</button>
+          <button class="btn next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Siguiente →</button>
+        </div>
+      </main>
 
-<footer><div class="wrap"><span>© <span id="year"></span> Zarautz Sostenible</span><span>Ideiak partekatu · Auzoa hobetu · Etorkizuna eraiki</span><span>Proyecto ciudadano independiente</span></div></footer>
+      <aside class="side-card">
+        <div class="side-icon">🌿</div>
+        <h3>Pequeñas ideas, grandes cambios.</h3>
+        <p>La sostenibilidad también está en cómo nos movemos, cuidamos los espacios públicos y participamos en la vida del municipio.</p>
+        <div class="side-extra">
+          <div class="side-line"></div>
+          <div class="side-stat"><span>Preguntas</span><strong>05</strong></div>
+          <div class="side-line"></div>
+          <div class="side-stat"><span>Tiempo estimado</span><strong>2 min</strong></div>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <section class="results" id="results" aria-live="polite">
+    <div class="results-head">
+      <div class="section-label">Tu participación</div>
+      <h2>Las buenas ideas<br>empiezan contigo. ✳</h2>
+      <p>Este es el resumen de tus respuestas. Cada elección nos ayuda a visualizar qué aspectos te importan para el futuro de Zarautz.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span>Preguntas respondidas</span><strong id="statAnswered">5/5</strong></div>
+      <div class="stat-box"><span>Temas diferentes</span><strong id="statThemes">5</strong></div>
+      <div class="stat-box"><span>Tu participación</span><strong>100%</strong></div>
+    </div>
+
+    <div class="results-card">
+      <div class="section-label">01 / Tu perfil sostenible</div>
+      <h3>Tus respuestas, de un vistazo.</h3>
+      <p>El gráfico representa las opciones que has elegido en este cuestionario.</p>
+      <div class="chart-list" id="chartList"></div>
+    </div>
+
+    <div class="results-card">
+      <div class="section-label">02 / Tus elecciones</div>
+      <h3>Lo que has compartido.</h3>
+      <p>Este es el detalle de tus respuestas para que puedas revisarlas.</p>
+      <div class="answer-list" id="answerList"></div>
+    </div>
+
+    <div class="results-card" style="background:#edf3e7">
+      <h3>¿Y ahora qué?</h3>
+      <p>Comparte tus ideas con otras personas y conversa sobre cómo hacer de Zarautz un lugar más agradable, verde y habitable.</p>
+      <div class="results-actions">
+        <button class="btn btn-primary" onclick="restartQuiz()">↻ Volver a responder</button>
+        <button class="btn btn-secondary" onclick="window.print()">Guardar resultados / PDF</button>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:var(--muted);line-height:1.7">Nota: estos resultados corresponden únicamente a tus respuestas. No representan una encuesta de toda la población ni se envían a una base de datos.</p>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div><strong>ZARAUTZ SOSTENIBLE</strong><br>Un futuro más verde se construye entre todos.</div>
+      <div>Cuida tu entorno. Comparte tus ideas. Actúa localmente. 🌱</div>
+    </div>
+  </footer>
+</div>
+
 <script>
-"use strict";
-
-/* Datos guardados solo en este navegador. */
-const KEYS = {
- name:"zs_name_v3", done:"zs_done_v3", logs:"zs_logs_v3", survey:"zs_survey_v3"
-};
-function read(key,fallback){
- try { const v=localStorage.getItem(key); return v===null?fallback:JSON.parse(v); }
- catch(e){ return fallback; }
-}
-function write(key,value){ localStorage.setItem(key,JSON.stringify(value)); }
-
-const ecoPlaces = [
- {id:"barrio",name:"01 · Diagnóstico del barrio",category:"community",lat:43.2825,lng:-2.1660,xp:20,level:1,requires:[],duration:"15–20 min",desc:"Detecta un problema cotidiano en tu entorno.",action:"Recorre tu barrio y observa una cuestión mejorable: accesibilidad, iluminación, ruido, limpieza, seguridad vial o falta de espacios de encuentro.",proof:"Anota el lugar aproximado, qué problema has observado y qué cambio propones."},
- {id:"espacio-publico",name:"02 · Mejora un espacio público",category:"nature",lat:43.2825,lng:-2.1720,xp:25,level:1,requires:[],duration:"20 min",desc:"Propón una mejora concreta para un lugar compartido.",action:"Elige una plaza, parque o calle peatonal. Identifica una mejora realista: sombra, bancos, vegetación, accesibilidad, fuentes o mantenimiento.",proof:"Describe el lugar, la necesidad y una solución concreta."},
- {id:"movilidad",name:"03 · Ruta más accesible",category:"walk",lat:43.2845,lng:-2.1585,xp:35,level:2,requires:["barrio"],duration:"25–30 min",desc:"Revisa una ruta desde la experiencia peatonal.",action:"Recorre una ruta cotidiana y observa cruces complicados, aceras estrechas, obstáculos o barreras para sillas de ruedas, carritos y personas mayores.",proof:"Indica la ruta de forma general y dos mejoras posibles. No fotografíes a personas sin permiso."},
- {id:"propuesta",name:"04 · Diseña una propuesta",category:"community",lat:43.2810,lng:-2.1700,xp:40,level:2,requires:["espacio-publico"],duration:"30 min",desc:"Convierte una observación en un plan viable.",action:"Prepara una propuesta con objetivo, solución, personas beneficiadas, posibles costes y una forma de comprobar si funciona.",proof:"Escribe el problema, la solución, a quién beneficia y cómo medirías el resultado."},
- {id:"escucha",name:"05 · Escucha al barrio",category:"community",lat:43.2830,lng:-2.1600,xp:50,level:3,requires:["propuesta"],duration:"20–30 min",desc:"Contrasta tu idea con otras perspectivas.",action:"Pregunta a dos personas, una asociación o un grupo vecinal qué opinan de la mejora. Explica que estás recogiendo opiniones para una propuesta ciudadana.",proof:"Resume dos opiniones de forma anónima y señala qué cambiarías después de escucharlas."},
- {id:"accion-local",name:"06 · Organiza una pequeña acción",category:"nature",lat:43.2890,lng:-2.1430,xp:65,level:3,requires:["escucha"],duration:"Variable",desc:"Pasa de la idea a una acción colaborativa.",action:"Participa en una iniciativa local o coordina una actividad sencilla y segura relacionada con tu propuesta. Pide permisos cuando sean necesarios y no intervengas en bienes públicos sin autorización.",proof:"Describe qué hiciste, cuándo, quién colaboró sin dar datos personales y cuál fue el resultado."},
- {id:"proyecto-final",name:"07 · Proyecto Zarautz 2030",category:"walk",lat:43.2780,lng:-2.1650,xp:100,level:4,requires:["movilidad","accion-local"],duration:"45–60 min",desc:"Diseña una propuesta completa para el futuro.",action:"Une tus observaciones en un pequeño proyecto con objetivo, pasos, colaboradores potenciales, recursos necesarios y dos indicadores para evaluar resultados.",proof:"Resume el proyecto y, si quieres, envíalo por un canal oficial del Ayuntamiento o a una asociación pertinente."}
+const questions = [
+  {
+    category:"Prioridades",
+    title:"¿Qué te gustaría mejorar primero en Zarautz?",
+    desc:"Piensa en el cambio que tendría un mayor impacto en tu día a día.",
+    options:[
+      ["🚲","Movilidad sostenible","Más opciones para caminar e ir en bici."],
+      ["🌳","Más zonas verdes","Parques, árboles y espacios naturales."],
+      ["♻️","Menos residuos","Mejor reciclaje y menos plásticos."],
+      ["🌊","Cuidar la costa","Proteger la playa y el entorno marino."]
+    ]
+  },
+  {
+    category:"Movilidad",
+    title:"¿Cómo te gustaría desplazarte por el municipio?",
+    desc:"Imagina calles cómodas, seguras y accesibles para todos.",
+    options:[
+      ["🚶","A pie","Itinerarios cómodos y accesibles."],
+      ["🚲","En bicicleta","Más carriles y aparcamientos seguros."],
+      ["🚌","Transporte público","Mejores conexiones y frecuencias."],
+      ["🌿","Combinar opciones","Elegir la alternativa según el trayecto."]
+    ]
+  },
+  {
+    category:"Ideas para el cambio",
+    title:"¿Qué iniciativa te parece más útil?",
+    desc:"Selecciona la propuesta que más te gustaría ver en marcha.",
+    options:[
+      ["🌱","Huertos urbanos","Cultivar y aprender en comunidad."],
+      ["🧹","Limpiezas colectivas","Cuidar playas, parques y calles."],
+      ["🔋","Ahorro energético","Reducir el consumo en los edificios."],
+      ["🛍️","Comercio local","Apoyar negocios de proximidad."]
+    ]
+  },
+  {
+    category:"Participación",
+    title:"¿Cómo te gustaría participar en tu barrio?",
+    desc:"La comunidad puede impulsar soluciones que respondan a sus necesidades.",
+    options:[
+      ["💡","Proponer ideas","Compartir propuestas para mejorar el barrio."],
+      ["🤝","Actividades vecinales","Colaborar con otras personas."],
+      ["📱","Participar online","Opinar y votar de forma digital."],
+      ["🎉","Eventos locales","Asistir a encuentros y talleres."]
+    ]
+  },
+  {
+    category:"Mirando al futuro",
+    title:"¿Qué debería ser prioritario para el Zarautz del futuro?",
+    desc:"Elige la dirección que te gustaría que tomara el municipio.",
+    options:[
+      ["🌍","Proteger la naturaleza","Conservar el entorno y la biodiversidad."],
+      ["🏡","Mejorar los barrios","Espacios públicos cómodos y accesibles."],
+      ["💚","Bienestar colectivo","Una localidad saludable e inclusiva."],
+      ["☀️","Energía limpia","Impulsar energías renovables."]
+    ]
+  }
 ];
-const categoryNames={community:"Comunidad",nature:"Espacio público",walk:"Movilidad"};
-let completed=read(KEYS.done,[]);
-if(!Array.isArray(completed)) completed=[];
-completed=completed.filter(id=>ecoPlaces.some(p=>p.id===id));
-write(KEYS.done,completed);
-let currentFilter="all";
-let map=null,markers={};
 
-const $=id=>document.getElementById(id);
-function esc(value){
- return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let current = 0;
+let answers = Array(questions.length).fill(null);
+
+const $ = id => document.getElementById(id);
+
+function startQuiz() {
+  $("survey").scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(() => $("options").querySelector("button")?.focus({preventScroll:true}),350);
 }
-function isUnlocked(place){return place.requires.every(id=>completed.includes(id));}
-function getXp(){return ecoPlaces.filter(p=>completed.includes(p.id)).reduce((sum,p)=>sum+p.xp,0);}
-function getLevel(){
- const xp=getXp();
- if(xp>=200)return 4;
- if(xp>=100)return 3;
- if(xp>=45)return 2;
- return 1;
-}
-function renderStats(){
- const xp=getXp(),count=completed.length,level=getLevel();
- $("totalXp").textContent=xp;
- $("placesDone").textContent=count+" / "+ecoPlaces.length;
- $("level").textContent=String(level).padStart(2,"0");
- $("progressLabel").textContent=Math.round(count/ecoPlaces.length*100)+"%";
- $("progressBar").style.width=(count/ecoPlaces.length*100)+"%";
- $("levelMessage").textContent=count===7?"¡Has completado todas las misiones! Ya tienes la base de un proyecto ciudadano.":"Nivel "+level+" · "+(7-count)+" misiones para completar el recorrido.";
-}
-function renderEcoCards(){
- const places=ecoPlaces.filter(p=>currentFilter==="all"||p.category===currentFilter);
- $("ecoCards").innerHTML=places.map(p=>{
-  const done=completed.includes(p.id),unlocked=isUnlocked(p);
-  const requirements=p.requires.map(id=>ecoPlaces.find(x=>x.id===id)?.name||id);
-  return `<article class="glass card ${unlocked?"":"locked"}">
-   <span class="tag">${done?"✓ COMPLETADA":unlocked?categoryNames[p.category]:"🔒 NIVEL BLOQUEADO"}</span>
-   <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
-   <div class="card-meta"><span class="muted">◷ ${esc(p.duration)}</span><span class="xp">+${p.xp} XP</span></div>
-   <div class="mission-proof"><strong>Tu misión</strong><br>${esc(p.action)}<br><br><strong>Qué registrar</strong><br>${esc(p.proof)}</div>
-   ${!unlocked?`<p class="small">Completa antes: ${requirements.map(esc).join(", ")}</p>`:
-    `<label class="mission-check"><input type="checkbox" data-mission="${p.id}" ${done?"checked":""}> <span>${done?"Misión completada":"Marcar como completada cuando la hayas realizado"}</span></label>`}
-  </article>`;
- }).join("");
- $("ecoCards").querySelectorAll("[data-mission]").forEach(input=>{
-  input.addEventListener("change",()=>{
-   const id=input.dataset.mission;
-   const place=ecoPlaces.find(p=>p.id===id);
-   if(!place||!isUnlocked(place))return;
-   if(input.checked&&!completed.includes(id))completed.push(id);
-   if(!input.checked)completed=completed.filter(x=>x!==id);
-   write(KEYS.done,completed);
-   renderAll();
+
+function renderQuestion() {
+  const q = questions[current];
+  const n = current + 1;
+  const pct = Math.round(n / questions.length * 100);
+
+  $("topStep").textContent = `PREGUNTA ${String(n).padStart(2,"0")} / ${String(questions.length).padStart(2,"0")}`;
+  $("progressLabel").textContent = `Pregunta ${n} de ${questions.length}`;
+  $("progressPercent").textContent = `${pct} %`;
+  $("progressFill").style.width = pct + "%";
+  $("questionKicker").textContent = `${String(n).padStart(2,"0")} — ${q.category}`;
+  $("questionTitle").textContent = q.title;
+  $("questionDesc").textContent = q.desc;
+  $("backBtn").disabled = current === 0;
+  $("nextBtn").disabled = answers[current] === null;
+  $("nextBtn").textContent = current === questions.length - 1 ? "Ver resultados ↗" : "Siguiente →";
+
+  const options = $("options");
+  options.innerHTML = "";
+
+  q.options.forEach((opt,index) => {
+    const selected = answers[current] === index;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "option" + (selected ? " selected" : "");
+    button.setAttribute("aria-pressed",String(selected));
+    button.innerHTML = `
+      <span class="option-icon" aria-hidden="true">${opt[0]}</span>
+      <span class="option-text">
+        <span class="option-title"></span>
+        <span class="option-sub"></span>
+      </span>
+      <span class="check" aria-hidden="true"></span>
+    `;
+    button.querySelector(".option-title").textContent = opt[1];
+    button.querySelector(".option-sub").textContent = opt[2];
+    button.addEventListener("click", () => {
+      answers[current] = index;
+      renderQuestion();
+      $("nextBtn").focus({preventScroll:true});
+    });
+    options.appendChild(button);
   });
- });
-}
-function markerIcon(state){
- const color=state==="done"?"#64aaff":state==="locked"?"#f8d48a":"#55f0d0";
- return L.divIcon({className:"",html:`<div style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:${color};color:#071714;border:3px solid #ffffffd9;box-shadow:0 0 18px ${color}88;font-weight:900;font-size:12px">${state==="done"?"✓":state==="locked"?"🔒":"+"}</div>`,iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-13]});
-}
-function updateMap(){
- if(!map)return;
- ecoPlaces.forEach((p,i)=>{
-  const done=completed.includes(p.id),unlocked=isUnlocked(p);
-  const state=done?"done":unlocked?"open":"locked";
-  if(markers[p.id])markers[p.id].setIcon(markerIcon(state));
-  const status=done?"Completada":unlocked?"Disponible":"Bloqueada";
-  const html=`<strong>${esc(p.name)}</strong><br>${esc(p.desc)}<br><b>+${p.xp} XP</b><br><span>${status}</span><br><button onclick="document.getElementById('misiones').scrollIntoView({behavior:'smooth'})" style="margin-top:8px;padding:7px;border:0;border-radius:8px;background:#55f0d0;color:#071714">Ver misiones</button>`;
-  if(markers[p.id])markers[p.id].bindPopup(html);
- });
- $("mapList").innerHTML=ecoPlaces.map(p=>{
-  const done=completed.includes(p.id),unlocked=isUnlocked(p);
-  return `<div class="map-item"><span>${done?"🔵":unlocked?"🟢":"🟡"} ${esc(p.name)}</span><button type="button" data-goto="${p.id}">${unlocked?"Ver mapa":"Bloqueada"}</button></div>`;
- }).join("");
- $("mapList").querySelectorAll("[data-goto]").forEach(btn=>btn.addEventListener("click",()=>{
-  const p=ecoPlaces.find(x=>x.id===btn.dataset.goto);
-  if(p&&map){map.setView([p.lat,p.lng],16);markers[p.id]?.openPopup();}
- }));
-}
-function renderAll(){renderStats();renderEcoCards();updateMap();}
-
-function initMap(){
- if(!window.L){
-  $("map").innerHTML='<p style="padding:20px">No se ha podido cargar el mapa. Comprueba tu conexión a internet.</p>';return;
- }
- map=L.map("map").setView([43.2825,-2.1650],14);
- L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-  maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
- }).addTo(map);
- ecoPlaces.forEach(p=>{markers[p.id]=L.marker([p.lat,p.lng]).addTo(map);});
- updateMap();
- setTimeout(()=>map.invalidateSize(),250);
 }
 
-function renderLog(){
- const logs=read(KEYS.logs,[]);
- $("logList").innerHTML=logs.length?logs.slice().reverse().map(log=>`<article class="log-entry"><strong>${esc(log.title)}</strong><p>${esc(log.type)}${log.area?" · "+esc(log.area):""}</p><p>${esc(log.text)}</p><small>${esc(log.date)}</small></article>`).join(""):'<p class="muted small">Todavía no has registrado acciones.</p>';
+function nextQuestion() {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
 }
-$("logForm").addEventListener("submit",e=>{
- e.preventDefault();
- const logs=read(KEYS.logs,[]);
- logs.push({
-  title:$("logTitle").value.trim(),type:$("logType").value,
-  area:$("logArea").value.trim(),text:$("logText").value.trim(),
-  date:new Date().toLocaleString("es-ES")
- });
- write(KEYS.logs,logs);
- $("logForm").reset();renderLog();
-});
-$("clearLog").addEventListener("click",()=>{
- if(confirm("¿Quieres borrar todas las entradas de tu diario en este navegador?")){
-  write(KEYS.logs,[]);renderLog();
- }
-});
 
-const questions=[
- {q:"¿Qué debería mejorar primero Zarautz?",options:["Movilidad y accesibilidad","Zonas verdes y sombra","Limpieza y mantenimiento","Espacios comunitarios"]},
- {q:"¿Cómo valorarías los recorridos a pie?",options:["Muy buenos","Aceptables","Necesitan mejoras","No lo sé"]},
- {q:"¿Qué iniciativa te parece más útil?",options:["Más árboles y sombra","Cruces más seguros","Reutilización y reparación","Actividades vecinales"]},
- {q:"¿Participarías en una propuesta para tu barrio?",options:["Sí, activamente","Sí, ocasionalmente","Quizá","Por ahora no"]},
- {q:"¿Qué debería priorizar una propuesta local?",options:["Beneficio social","Impacto ambiental","Coste asumible","Facilidad de ejecución"]}
-];
-function renderQuestions(){
- const previous=read(KEYS.survey,{});
- $("surveyQuestions").innerHTML=questions.map((q,i)=>`<div class="glass question"><p><strong>${i+1}. ${esc(q.q)}</strong></p><div class="options">${q.options.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" ${String(previous[i])===String(j)?"checked":""}>${esc(o)}</label>`).join("")}</div></div>`).join("");
+function previousQuestion() {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
 }
-$("surveyForm").addEventListener("submit",e=>{
- e.preventDefault();
- const answers={};
- questions.forEach((q,i)=>{
-  const selected=document.querySelector(`input[name="q${i}"]:checked`);
-  if(selected)answers[i]=Number(selected.value);
- });
- write(KEYS.survey,answers);
- const counts={};
- Object.values(answers).forEach((v,i)=>{const key=questions[i].options[v];counts[key]=(counts[key]||0)+1;});
- $("surveyBars").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([name,n])=>`<div style="margin:15px 0"><div style="display:flex;justify-content:space-between;font-size:12px"><span>${esc(name)}</span><strong>${n}</strong></div><div class="result-bar"><div style="width:${n/Math.max(1,Object.keys(answers).length)*100}%"></div></div></div>`).join("")||"<p>No has seleccionado respuestas.</p>";
- $("surveyResult").hidden=false;
- $("surveyResult").scrollIntoView({behavior:"smooth",block:"nearest"});
-});
-$("resetSurvey").addEventListener("click",()=>{
- $("surveyForm").reset();write(KEYS.survey,{});$("surveyResult").hidden=true;
-});
 
-$("profileName").value=read(KEYS.name,"");
-function updateName(){
- const name=$("profileName").value.trim();
- write(KEYS.name,name);
- $("avatar").textContent=name?name.charAt(0).toLocaleUpperCase("es-ES"):"Z";
+function showResults() {
+  $("quizLayout").classList.add("hidden");
+  $("results").classList.add("visible");
+  $("topStep").textContent = "CUESTIONARIO COMPLETADO";
+  $("statAnswered").textContent = `${answers.filter(a => a !== null).length}/${questions.length}`;
+  $("statThemes").textContent = new Set(answers.map((a,i) => questions[i].options[a]?.[1]).filter(Boolean)).size;
+
+  const chart = $("chartList");
+  chart.innerHTML = "";
+  questions.forEach((q,i) => {
+    const opt = q.options[answers[i]];
+    const item = document.createElement("div");
+    item.className = "chart-item";
+    item.innerHTML = `
+      <div class="chart-label"><span></span><span>1 de 1 · 100%</span></div>
+      <div class="bar-track"><div class="bar-fill"></div></div>
+    `;
+    item.querySelector(".chart-label span:first-child").textContent = `${opt[0]} ${opt[1]}`;
+    chart.appendChild(item);
+  });
+
+  const list = $("answerList");
+  list.innerHTML = "";
+  questions.forEach((q,i) => {
+    const opt = q.options[answers[i]];
+    const row = document.createElement("div");
+    row.className = "answer-row";
+    row.innerHTML = `<div class="answer-emoji"></div><div><small></small><strong></strong></div>`;
+    row.querySelector(".answer-emoji").textContent = opt[0];
+    row.querySelector("small").textContent = `${String(i+1).padStart(2,"0")} · ${q.category}`;
+    row.querySelector("strong").textContent = opt[1] + " — " + opt[2];
+    list.appendChild(row);
+  });
+
+  $("results").scrollIntoView({behavior:"smooth",block:"start"});
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".bar-fill").forEach(bar => bar.style.width = "100%");
+  });
 }
-$("profileName").addEventListener("input",updateName);
-$("filters").querySelectorAll("[data-filter]").forEach(btn=>btn.addEventListener("click",()=>{
- currentFilter=btn.dataset.filter;
- $("filters").querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b===btn));
- renderEcoCards();
-}));
-$("year").textContent=new Date().getFullYear();
-renderQuestions();
-renderLog();
-renderAll();
-initMap();
+
+function restartQuiz() {
+  answers = Array(questions.length).fill(null);
+  current = 0;
+  $("results").classList.remove("visible");
+  $("quizLayout").classList.remove("hidden");
+  renderQuestion();
+  $("survey").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+renderQuestion();
 </script>
 </body>
 </html>
