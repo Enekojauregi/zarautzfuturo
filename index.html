@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zarautz Sostenible</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a class="logo" href="#inicio">🌱 Zarautz Sostenible</a>
+    <nav>
+      <a href="#retos">Retos</a>
+      <a href="#vota">Vota</a>
+      <a href="#ods">Agenda 2030</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <p class="etiqueta">ZARAUTZ · AGENDA 2030</p>
+    <h1>El futuro de Zarautz <span>lo decidimos juntos.</span></h1>
+    <p>¿Qué reto social debería abordar primero nuestro municipio?</p>
+    <a class="boton" href="#vota">Participar en la votación ↓</a>
+  </section>
+
+  <section id="retos">
+    <p class="etiqueta">01 / LOS RETOS</p>
+    <h2>¿Qué podemos mejorar?</h2>
+    <div class="tarjetas">
+      <article class="tarjeta">
+        <h3>🌿 Empleo verde</h3>
+        <p>Formación y oportunidades laborales relacionadas con la sostenibilidad.</p>
+        <button class="elegir" data-voto="empleo">Elegir propuesta</button>
+      </article>
+      <article class="tarjeta">
+        <h3>🏠 Hogares eficientes</h3>
+        <p>Reducir el consumo energético y mejorar el confort de las viviendas.</p>
+        <button class="elegir" data-voto="energia">Elegir propuesta</button>
+      </article>
+      <article class="tarjeta">
+        <h3>⚖️ Igualdad</h3>
+        <p>Impulsar la igualdad de género y las oportunidades para todas las personas.</p>
+        <button class="elegir" data-voto="igualdad">Elegir propuesta</button>
+      </article>
+      <article class="tarjeta">
+        <h3>♻️ Medioambiente</h3>
+        <p>Promover la movilidad sostenible, el reciclaje y los espacios verdes.</p>
+        <button class="elegir" data-voto="medioambiente">Elegir propuesta</button>
+      </article>
+    </div>
+  </section>
+
+  <section class="votacion" id="vota">
+    <p class="etiqueta">02 / TU OPINIÓN CUENTA</p>
+    <h2>¿Por dónde empezamos?</h2>
+    <p>Elige el proyecto que priorizarías para el Zarautz del futuro.</p>
+
+    <form id="formulario">
+      <label><input type="radio" name="propuesta" value="empleo" required> Empleo verde</label>
+      <label><input type="radio" name="propuesta" value="energia"> Hogares eficientes</label>
+      <label><input type="radio" name="propuesta" value="igualdad"> Igualdad de oportunidades</label>
+      <label><input type="radio" name="propuesta" value="medioambiente"> Municipio sostenible</label>
+      <button class="boton" type="submit">Enviar mi voto →</button>
+    </form>
+
+    <p id="mensaje" aria-live="polite"></p>
+
+    <div class="resultados">
+      <h3>Resultados de la votación</h3>
+      <p id="total">0 votos</p>
+      <div id="grafico"></div>
+      <button id="reiniciar" class="secundario" type="button">Reiniciar resultados</button>
+    </div>
+  </section>
+
+  <section id="ods">
+    <p class="etiqueta">03 / AGENDA 2030</p>
+    <h2>Ideas locales, objetivos globales.</h2>
+    <div class="ods">
+      <span>ODS 5 · Igualdad de género</span>
+      <span>ODS 7 · Energía limpia</span>
+      <span>ODS 8 · Trabajo decente</span>
+      <span>ODS 10 · Menos desigualdades</span>
+      <span>ODS 11 · Ciudades sostenibles</span>
+      <span>ODS 12 · Consumo responsable</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>Proyecto educativo · Sostenibilidad UF3 · Zarautz</p>
+    <a href="#inicio">Volver arriba ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
