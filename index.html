@@ -1,981 +1,367 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#102c23">
-<meta name="description" content="Zarautz Sostenible: un proyecto ciudadano para construir un futuro mejor.">
-<title>Zarautz Sostenible | El futuro comienza aquí</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123c31">
+<title>Zarautz Sostenible — Tu impacto local</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
-:root {
-  --forest: #102c23;
-  --forest-light: #1b4435;
-  --gold: #c6a76a;
-  --gold-light: #e7d4a5;
-  --cream: #f6f4ed;
-  --white: #fffefa;
-  --text: #23392e;
-  --muted: #788177;
-  --line: #e7e4d9;
-  --radius: 18px;
-  --shadow: 0 20px 60px rgba(16,44,35,.08);
-}
-
-* { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-}
-
-body {
-  margin: 0;
-  background: var(--cream);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  line-height: 1.7;
-}
-
-button, input { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-a { color: inherit; }
-
-.topbar {
-  background: var(--forest);
-  color: #f6f1e5;
-  text-align: center;
-  padding: 8px 15px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-header {
-  background: rgba(255,254,250,.96);
-  backdrop-filter: blur(16px);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  border-bottom: 1px solid var(--line);
-}
-
-.nav {
-  max-width: 1240px;
-  margin: auto;
-  padding: 19px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
-}
-
-.brand {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-icon {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  display: grid;
-  place-items: center;
-  font-size: 23px;
-  border-radius: 50%;
-}
-
-.brand strong {
-  display: block;
-  font-size: 14px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 1.5;
-}
-
-.brand small {
-  display: block;
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 1.5px;
-}
-
-.navlinks {
-  display: flex;
-  align-items: center;
-  gap: 27px;
-}
-
-.navlinks a {
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 600;
-  transition: color .2s;
-}
-
-.navlinks a:hover { color: #a17d39; }
-
-.nav-cta {
-  background: var(--forest);
-  color: white !important;
-  padding: 12px 18px;
-}
-
-.hero {
-  background: var(--forest);
-  color: var(--white);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero:before {
-  content: "";
-  position: absolute;
-  width: 550px;
-  height: 550px;
-  right: -180px;
-  top: -180px;
-  border: 1px solid rgba(198,167,106,.2);
-  border-radius: 50%;
-}
-
-.hero:after {
-  content: "";
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  right: -105px;
-  top: -105px;
-  border: 1px solid rgba(198,167,106,.13);
-  border-radius: 50%;
-}
-
-.hero-inner {
-  max-width: 1240px;
-  margin: auto;
-  padding: 100px 5% 95px;
-  display: grid;
-  grid-template-columns: 1.05fr .95fr;
-  gap: 70px;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.eyebrow {
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-h1, h2, h3, .serif {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 500;
-}
-
-h1 {
-  font-size: clamp(43px,6vw,76px);
-  line-height: 1.08;
-  letter-spacing: -2px;
-  margin: 24px 0;
-}
-
-h1 em {
-  color: var(--gold-light);
-  font-weight: 400;
-}
-
-.hero-copy {
-  max-width: 510px;
-  color: #c1cec4;
-  font-size: 14px;
-  line-height: 1.9;
-}
-
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid transparent;
-  padding: 14px 21px;
-  background: var(--gold);
-  color: var(--forest);
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  transition: .25s;
-}
-
-.btn:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  border-color: #52675a;
-  color: white;
-  background: transparent;
-}
-
-.btn-outline:hover {
-  background: #203f32;
-  color: white;
-}
-
-.hero-meta {
-  display: flex;
-  gap: 26px;
-  flex-wrap: wrap;
-  margin-top: 38px;
-  font-size: 11px;
-  color: #b7c6b9;
-}
-
-.hero-meta span:before {
-  content: "✦";
-  color: var(--gold);
-  margin-right: 8px;
-}
-
-.visual {
-  min-height: 430px;
-  position: relative;
-  background:
-    linear-gradient(180deg,rgba(16,44,35,.02),rgba(16,44,35,.4)),
-    linear-gradient(145deg,#a5b8a2,#e1d8bc 38%,#a7bca1 39%,#496b50 68%,#173c31);
-  overflow: hidden;
-}
-
-.visual-sun {
-  position: absolute;
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  background: #e8d6a3;
-  right: 19%;
-  top: 16%;
-  box-shadow: 0 0 80px rgba(231,212,165,.28);
-}
-
-.hill {
-  position: absolute;
-  width: 140%;
-  height: 57%;
-  bottom: -17%;
-  left: -20%;
-  background: #345f45;
-  border-radius: 50% 50% 0 0;
-  transform: rotate(-8deg);
-}
-
-.hill.two {
-  width: 140%;
-  height: 43%;
-  bottom: -20%;
-  left: -2%;
-  background: #173e31;
-  transform: rotate(8deg);
-}
-
-.visual-label {
-  position: absolute;
-  left: 22px;
-  top: 22px;
-  border: 1px solid rgba(255,255,255,.5);
-  color: white;
-  padding: 9px 12px;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.visual-caption {
-  position: absolute;
-  z-index: 2;
-  bottom: 26px;
-  left: 25px;
-  right: 25px;
-  color: white;
-}
-
-.visual-caption strong {
-  display: block;
-  font-family: 'Playfair Display', serif;
-  font-size: 27px;
-  font-weight: 400;
-}
-
-.visual-caption span {
-  color: #e2d7b8;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-.intro-strip {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-}
-
-.intro-item {
-  padding: 28px 20px;
-  text-align: center;
-  border-right: 1px solid var(--line);
-}
-
-.intro-item:last-child { border: 0; }
-
-.intro-item strong {
-  display: block;
-  color: var(--forest);
-  font-family: 'Playfair Display', serif;
-  font-size: 21px;
-  font-weight: 500;
-}
-
-.intro-item span {
-  color: var(--muted);
-  font-size: 10px;
-  letter-spacing: .7px;
-}
-
-.section {
-  max-width: 1100px;
-  padding: 90px 5%;
-  margin: auto;
-}
-
-.section-heading {
-  max-width: 650px;
-  margin-bottom: 35px;
-}
-
-.section-heading h2 {
-  font-size: clamp(33px,4vw,49px);
-  line-height: 1.15;
-  margin: 13px 0;
-  letter-spacing: -.8px;
-}
-
-.section-heading p {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.start-card, .survey-card, .result-card {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 35px;
-  box-shadow: var(--shadow);
-}
-
-.start-card {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  justify-content: space-between;
-}
-
-.start-symbol {
-  width: 62px;
-  height: 62px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  background: var(--forest);
-  color: var(--gold);
-  font-size: 26px;
-}
-
-.start-copy { flex: 1; }
-
-.start-copy h3 {
-  margin: 0 0 7px;
-  font-size: 25px;
-}
-
-.start-copy p {
-  margin: 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.hidden { display: none !important; }
-
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.progress-track {
-  height: 4px;
-  background: #e9e7dd;
-  margin: 13px 0 35px;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 5%;
-  background: var(--gold);
-  transition: width .25s;
-}
-
-.question-number {
-  color: #a17d39;
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 700;
-}
-
-#questionTitle {
-  font-size: clamp(25px,3.5vw,36px);
-  line-height: 1.3;
-  margin: 15px 0 25px;
-}
-
-.options { display: grid; gap: 11px; }
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  border: 1px solid var(--line);
-  padding: 16px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: .2s;
-}
-
-.option:hover, .option:has(input:checked) {
-  border-color: var(--gold);
-  background: #faf7ed;
-}
-
-.option input {
-  accent-color: var(--forest);
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 30px;
-}
-
-.disclaimer {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 18px;
-}
-
-.success {
-  text-align: center;
-  padding: 45px 25px;
-}
-
-.success-mark {
-  color: var(--gold);
-  font-size: 40px;
-}
-
-.success h3 { font-size: 32px; }
-
-.results-section {
-  background: #eaece3;
-  border-block: 1px solid #dce1d5;
-}
-
-.results-inner {
-  max-width: 1100px;
-  padding: 90px 5%;
-  margin: auto;
-}
-
-.results-grid {
-  display: grid;
-  grid-template-columns: 1.4fr .6fr;
-  gap: 22px;
-}
-
-.result-card { box-shadow: none; }
-
-.result-card h3 {
-  font-size: 25px;
-  margin-top: 0;
-}
-
-.data-tag {
-  display: inline-block;
-  padding: 7px 10px;
-  background: #f5efdc;
-  color: #876a30;
-  font-size: 9px;
-  letter-spacing: 1px;
-  font-weight: 700;
-}
-
-.chart-row { margin: 23px 0; }
-
-.chart-label {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 9px;
-}
-
-.chart-label span:last-child {
-  color: #8c713b;
-  white-space: nowrap;
-}
-
-.chart-track {
-  height: 7px;
-  background: #ebe9df;
-}
-
-.chart-bar {
-  height: 100%;
-  background: linear-gradient(90deg,#183e2e,#bda05e);
-  transition: width .4s;
-}
-
-.big-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 67px;
-  color: var(--forest);
-  line-height: 1.2;
-  margin: 12px 0;
-}
-
-.muted { color: var(--muted); font-size: 13px; }
-
-footer {
-  background: var(--forest);
-  color: #d8dfd5;
-  padding: 45px 5%;
-  text-align: center;
-}
-
-.footer-brand {
-  color: var(--gold-light);
-  font-family: 'Playfair Display', serif;
-  font-size: 25px;
-}
-
-footer p { font-size: 11px; color: #b5c3b7; }
-
-@media(max-width:760px) {
-  .nav { padding: 14px 5%; }
-  .navlinks { gap: 13px; }
-  .navlinks a { font-size: 11px; }
-  .nav-cta { padding: 9px 10px; }
-  .hero-inner {
-    grid-template-columns: 1fr;
-    padding: 65px 6%;
-    gap: 35px;
-  }
-  .visual { min-height: 300px; }
-  .intro-strip { grid-template-columns: repeat(2,1fr); }
-  .intro-item:nth-child(2) { border-right: 0; }
-  .intro-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
-  .section, .results-inner { padding: 65px 6%; }
-  .results-grid { grid-template-columns: 1fr; }
-  .start-card { flex-wrap: wrap; padding: 23px; }
-  .start-card .btn { width: 100%; }
-  .survey-card { padding: 23px; }
-}
-
-@media(max-width:420px) {
-  .brand strong { font-size: 11px; }
-  .brand small { font-size: 9px; }
-  .brand-icon { width: 36px; height: 36px; }
-  .navlinks { gap: 10px; }
-  .navlinks a { font-size: 10px; }
-  .form-actions .btn { padding: 12px 10px; font-size: 11px; }
-}
+:root{--forest:#0b111c;--forest2:#182a3b;--gold:#7ce7d4;--cream:#080c13;--paper:rgba(20,29,43,.68);--ink:#edf6f7;--muted:#9aaab9;--line:rgba(176,208,224,.16);--pale:rgba(124,231,212,.12)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:radial-gradient(ellipse at 12% 8%,#173b48 0,transparent 30%),radial-gradient(ellipse at 90% 34%,#202344 0,transparent 32%),linear-gradient(135deg,#070a11,#0b1220 48%,#080c13);background-attachment:fixed;color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.6}
+button,input,textarea{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+header{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px clamp(18px,5vw,70px);background:rgba(7,13,22,.76);color:#fff;border-bottom:1px solid rgba(170,225,232,.18);backdrop-filter:blur(22px) saturate(150%);box-shadow:0 10px 35px #0003}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;letter-spacing:.2px}
+.brand-mark{display:grid;place-items:center;width:37px;height:37px;border:1px solid #7ce7d4;border-radius:50%;color:var(--gold);box-shadow:inset 0 0 18px #7ce7d420,0 0 20px #7ce7d415;font-size:19px}
+.brand small{display:block;color:#a6c6cf;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{color:#d7e9ee;text-decoration:none;font-size:13px}
+.account{display:flex;align-items:center;gap:9px}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:var(--forest);font-weight:700}
+.account-name{font-size:12px;max-width:115px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn{border:0;border-radius:999px;padding:12px 19px;background:linear-gradient(135deg,#a4fff0,#53cdbb);color:#08201f;font-weight:700;font-size:13px;cursor:pointer;transition:.2s;box-shadow:0 7px 24px #5fe2cf22,inset 0 1px #ffffffb8}
+.btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.btn.dark{background:linear-gradient(135deg,#21394b,#12202e);color:#f0fbff;border:1px solid #9ccbd32e}
+.btn.light{background:#ffffff05;border:1px solid var(--line);color:var(--ink)}
+.btn.small{padding:8px 13px;font-size:12px}
+.hero{padding:76px clamp(20px,7vw,100px) 70px;background:radial-gradient(ellipse at 75% 0%,#245d69 0,transparent 42%),radial-gradient(ellipse at 10% 90%,#283057 0,transparent 38%),linear-gradient(120deg,#080d17,#111d2c 58%,#0a151e);color:#fff;display:grid;grid-template-columns:1.1fr .9fr;gap:45px;align-items:center}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2.5px;font-weight:700;text-transform:uppercase}
+.hero h1{font:600 clamp(42px,6vw,74px)/1.04 'Playfair Display',serif;letter-spacing:-1.5px;margin:17px 0}
+.hero h1 em{color:#7ce7d4;font-style:normal}
+.hero p{max-width:580px;color:#b3c7d2;font-size:16px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+.hero-art{min-height:300px;border:1px solid #b7f4f033;border-radius:28px;overflow:hidden;position:relative;display:flex;align-items:end;justify-content:center;background:radial-gradient(circle at 70% 20%,#9fffe72c,transparent 30%),linear-gradient(145deg,#1b3649,#101727 52%,#172b39);box-shadow:0 24px 65px #0007,inset 0 1px #ffffff24}
+.hero-art:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:#7ce7d4;right:13%;top:11%;opacity:.75;box-shadow:0 0 65px #7ce7d455}
+.coastline{z-index:1;font-size:clamp(70px,10vw,120px);filter:drop-shadow(0 10px 7px #173d3050);margin-bottom:25px}
+.art-label{position:absolute;top:18px;left:18px;z-index:2;border-radius:30px;padding:7px 12px;background:#122331bb;color:#c8fff5;border:1px solid #c7fff22b;backdrop-filter:blur(12px);font-size:11px;font-weight:700;letter-spacing:1px}
+.statline{display:flex;gap:28px;margin-top:30px}
+.statline strong{display:block;color:var(--gold);font:600 26px 'Playfair Display',serif}
+.statline span{font-size:11px;color:#b3c7d2}
+.wrap{max-width:1240px;margin:auto;padding:65px clamp(18px,5vw,60px)}
+.section-head{max-width:720px;margin-bottom:28px}
+.section-head h2{font:600 clamp(31px,4vw,46px)/1.12 'Playfair Display',serif;margin:9px 0 12px;color:#e5f5f5}
+.section-head p{color:var(--muted);margin:0}
+.surface{background:linear-gradient(135deg,rgba(27,43,61,.76),rgba(12,19,31,.72));border:1px solid rgba(184,232,239,.17);border-radius:20px;padding:23px;box-shadow:0 18px 55px #0003,inset 0 1px rgba(255,255,255,.08);backdrop-filter:blur(20px)}
+.account-panel{display:none;position:absolute;right:clamp(15px,5vw,70px);top:75px;width:min(340px,calc(100vw - 30px));padding:20px;background:rgba(12,21,33,.92);color:var(--ink);border:1px solid #b8e8ef2a;border-radius:17px;box-shadow:0 18px 55px #0008;backdrop-filter:blur(20px)}
+.account-panel.open{display:block}
+.account-panel h3{margin:0 0 5px;color:#e7f9f8;font-family:'Playfair Display',serif}
+.account-panel p,.help{font-size:12px;color:var(--muted)}
+.field{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#0c1521;margin:6px 0 12px;color:var(--ink)}
+.account-note{font-size:11px;color:var(--muted);margin-top:10px}
+.passport-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.metric{background:linear-gradient(145deg,rgba(37,70,86,.85),rgba(13,22,35,.92));color:#fff;border:1px solid #9cece32b;border-radius:16px;padding:17px;box-shadow:0 12px 30px #0003,inset 0 1px #ffffff18}
+.metric span{font-size:11px;color:#b4cbd3;display:block}
+.metric strong{font:600 27px 'Playfair Display',serif;color:var(--gold)}
+.map-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.8fr);gap:18px;align-items:stretch}
+.map-card{padding:12px;background:rgba(15,24,37,.76);border:1px solid rgba(180,225,234,.16);border-radius:20px;overflow:hidden;box-shadow:0 18px 45px #0003;backdrop-filter:blur(16px)}
+.map-title{padding:10px 10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.map-title h3,.activity-head h3{font:600 23px 'Playfair Display',serif;margin:0;color:#e7f9f8}
+#zarautzMap{height:480px;border-radius:13px;z-index:1}
+.map-legend{font-size:11px;color:var(--muted);padding:12px 9px 3px}
+.activity-panel{background:linear-gradient(145deg,rgba(24,39,56,.86),rgba(11,18,29,.86));border:1px solid rgba(180,225,234,.17);border-radius:20px;padding:20px;display:flex;flex-direction:column;min-height:540px;box-shadow:0 18px 45px #0004;backdrop-filter:blur(18px)}
+.activity-head{display:flex;align-items:start;justify-content:space-between;gap:10px}
+.activity-head p{font-size:12px;color:var(--muted);margin:5px 0 14px}
+.activity-list{display:grid;gap:10px;max-height:390px;overflow:auto;padding-right:2px}
+.activity-item{border:1px solid rgba(180,225,234,.15);background:rgba(255,255,255,.025);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:start}
+.activity-item .check{accent-color:#7ce7d4;width:18px;height:18px;margin-top:4px}
+.activity-item strong{display:block;font-size:13px}
+.activity-item small{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:3px}
+.xp{font-size:10px;font-weight:700;color:#bafff3;white-space:nowrap;background:rgba(124,231,212,.12);border:1px solid #7ce7d42b;border-radius:20px;padding:5px 7px}
+.empty{font-size:13px;color:var(--muted);padding:15px;border:1px dashed var(--line);border-radius:12px}
+.action-log{margin-top:17px;border-top:1px solid var(--line);padding-top:15px}
+.action-log h4{margin:0 0 8px;color:#e7f9f8}
+.action-log textarea{width:100%;min-height:78px;resize:vertical;padding:11px;border:1px solid var(--line);border-radius:10px;background:#0c1521;color:var(--ink)}
+.action-log .btn{margin-top:8px}
+.log-entry{font-size:12px;border-bottom:1px solid var(--line);padding:8px 0;color:var(--muted);overflow-wrap:anywhere}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 17px}
+.filter{border:1px solid var(--line);border-radius:30px;padding:8px 13px;background:#111c2b;color:#cce3e8;font-size:12px;cursor:pointer}
+.filter.active{background:rgba(124,231,212,.15);color:#bafff3;border-color:#7ce7d4}
+.survey-box{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.survey-box h3{margin:0;font:600 23px 'Playfair Display',serif;color:#e7f9f8}
+.survey-box p{margin:5px 0;color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+.progress{height:7px;background:#263541;border-radius:20px;overflow:hidden;margin:12px 0 22px}
+.progress div{height:100%;width:5%;background:var(--gold);transition:width .2s}
+.question-title{font:600 25px/1.25 'Playfair Display',serif;color:#e7f9f8}
+.options{display:grid;gap:9px}
+.option{padding:12px;border:1px solid var(--line);border-radius:10px;display:flex;gap:10px;cursor:pointer;background:#ffffff04;color:var(--ink)}
+.option:has(input:checked){border-color:#7ce7d4;background:rgba(124,231,212,.09)}
+.option input{accent-color:#7ce7d4}
+.form-actions{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.results{background:linear-gradient(145deg,#101a28,#0a1019);border-top:1px solid #b8e8ef18;border-bottom:1px solid #b8e8ef18}
+.results-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}
+.chart-row{margin:17px 0}
+.chart-label{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;margin-bottom:7px}
+.track{height:10px;background:#263541;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#39a997,#7ce7d4);border-radius:20px}
+.note{font-size:11px;color:var(--muted)}
+footer{padding:28px;text-align:center;background:#070b12;color:#a9c2ca;font-size:12px;border-top:1px solid rgba(184,232,239,.15)}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:55px}.hero-art{min-height:240px}.map-layout{grid-template-columns:1fr}.activity-panel{min-height:0}.activity-list{max-height:320px}.results-grid{grid-template-columns:1fr}.nav{gap:12px}.nav a{font-size:12px}}
+@media(max-width:540px){header{gap:10px;padding:12px 14px}.brand{font-size:12px}.brand small{font-size:8px}.nav{display:none}.account-name{max-width:70px}.account .btn{padding:8px 10px;font-size:11px}.hero{padding:48px 20px}.statline{gap:17px}.wrap{padding:48px 16px}.passport-summary{gap:7px}.metric{padding:12px}.metric strong{font-size:22px}.metric span{font-size:10px}#zarautzMap{height:380px}.surface{padding:17px}}
 </style>
-</head>
-
-<body>
-<div class="topbar">Un proyecto para un futuro mejor · Zarautz · Agenda 2030</div>
-
+</head><body>
 <header>
-  <div class="nav">
-    <a href="#inicio" class="brand">
-      <div class="brand-icon">✳</div>
-      <div>
-        <strong>Zarautz Sostenible</strong>
-        <small>EL FUTURO COMIENZA AQUÍ</small>
-      </div>
-    </a>
-    <nav class="navlinks">
-      <a href="#inicio">Inicio</a>
-      <a href="#encuesta">Encuesta</a>
-      <a href="#resultados">Resultados</a>
-      <a class="nav-cta" href="#encuesta">Participar ↗</a>
-    </nav>
-  </div>
+<a class="brand" href="#inicio"><span class="brand-mark">✳</span><span>ZARAUTZ SOSTENIBLE<small>Tu impacto · Nuestro futuro</small></span></a>
+<nav class="nav"><a href="#inicio">Inicio</a><a href="#mapa">Mapa y acciones</a><a href="#encuesta">Encuesta</a><a href="#resultados">Resultados</a></nav>
+<div class="account"><div class="avatar" id="avatar">?</div><span class="account-name" id="accountName">Invitado</span><button class="btn small" id="accountToggle">Mi cuenta</button></div>
+<div class="account-panel" id="accountPanel">
+<h3>Tu cuenta sostenible</h3><p>Pon tu nombre para personalizar tu pasaporte.</p>
+<label for="profileName" class="help">¿Cómo te llamas?</label><input class="field" id="profileName" maxlength="40" placeholder="Tu nombre">
+<button class="btn dark" id="saveProfile">Guardar perfil</button>
+<p class="account-note">Por ahora el perfil se guarda solo en este navegador. Para iniciar sesión con Google y sincronizar tus acciones entre dispositivos hay que conectar un servicio de autenticación y una base de datos.</p>
+</div>
 </header>
-
 <main>
 <section class="hero" id="inicio">
-  <div class="hero-inner">
-    <div>
-      <div class="eyebrow">✦ Visión 2030 · Zarautz</div>
-      <h1>Un futuro mejor.<br><em>Una decisión nuestra.</em></h1>
-      <p class="hero-copy">
-        Imaginemos un Zarautz más verde, inclusivo y sostenible.
-        Tu voz puede ayudar a definir las prioridades del municipio.
-        Comparte tu opinión y forma parte del cambio.
-      </p>
-      <div class="button-row">
-        <button class="btn" id="enterBtn">Descubrir la encuesta ↗</button>
-        <a href="#resultados" class="btn btn-outline">Explorar resultados</a>
-      </div>
-      <div class="hero-meta">
-        <span>20 preguntas</span>
-        <span>3–5 minutos</span>
-        <span>Tu opinión cuenta</span>
-      </div>
-    </div>
-    <div class="visual" aria-label="Paisaje conceptual de naturaleza">
-      <div class="visual-sun"></div>
-      <div class="hill"></div>
-      <div class="hill two"></div>
-      <div class="visual-label">Nuestro compromiso · 2030</div>
-      <div class="visual-caption">
-        <strong>El valor de lo que compartimos.</strong>
-        <span>PERSONAS · PLANETA · FUTURO</span>
-      </div>
-    </div>
-  </div>
+<div><div class="eyebrow">ZARAUTZ · AGENDA 2030</div><h1>Un futuro mejor.<br><em>Acción a acción.</em></h1><p>Descubre lugares de Zarautz, completa retos sostenibles y registra lo que haces. Cada pequeña acción suma para cuidar nuestro entorno.</p><div class="hero-actions"><a class="btn" href="#mapa">Explorar el mapa ↓</a><a class="btn" style="background:transparent;border:1px solid #ffffff70;color:white" href="#encuesta">Participar en la encuesta</a></div><div class="statline"><div><strong id="heroDone">0</strong><span>retos completados</span></div><div><strong id="heroXP">0</strong><span>puntos sostenibles</span></div><div><strong>20</strong><span>preguntas de futuro</span></div></div></div>
+<div class="hero-art"><span class="art-label">🌿 PASAPORTE SOSTENIBLE</span><div class="coastline">🌊 🌳 🏘️</div></div>
 </section>
-
-<div class="intro-strip">
-  <div class="intro-item"><strong>11</strong><span>Ciudades sostenibles</span></div>
-  <div class="intro-item"><strong>5 · 10</strong><span>Igualdad e inclusión</span></div>
-  <div class="intro-item"><strong>8</strong><span>Trabajo digno</span></div>
-  <div class="intro-item"><strong>7 · 13</strong><span>Energía y clima</span></div>
+<section class="wrap" id="mapa">
+<div class="section-head"><div class="eyebrow">01 / EXPLORA Y ACTÚA</div><h2>Tu mapa de impacto</h2><p>Encuentra rincones para disfrutar Zarautz de forma responsable. Marca los retos que hayas completado y apunta otras acciones que hayas hecho.</p></div>
+<div class="passport-summary"><div class="metric"><span>Lugares / retos completados</span><strong id="placesDone">0 / 5</strong></div><div class="metric"><span>Puntos sostenibles</span><strong id="ecoPoints">0 XP</strong></div><div class="metric"><span>Progreso del pasaporte</span><strong id="ecoProgress">0%</strong></div></div>
+<div class="filters"><button class="filter active" data-filter="all">Todos los lugares</button><button class="filter" data-filter="nature">Naturaleza</button><button class="filter" data-filter="walk">Paseos</button><button class="filter" data-filter="community">Comunidad</button></div>
+<div class="map-layout">
+<div class="map-card"><div class="map-title"><h3>Explora Zarautz</h3><span class="help">Pulsa los marcadores</span></div><div id="zarautzMap" aria-label="Mapa interactivo de Zarautz"></div><div class="map-legend">🟢 Lugar o reto sostenible · La ubicación de los marcadores es orientativa; comprueba el punto exacto antes de salir.</div></div>
+<aside class="activity-panel"><div class="activity-head"><div><h3>Lo que he hecho</h3><p>Marca retos o registra una acción propia.</p></div><span class="xp" id="listCount">0 hechos</span></div><div class="activity-list" id="ecoGrid"></div><div class="action-log"><h4>Mi diario de acciones</h4><textarea id="actionText" maxlength="400" placeholder="Ej.: Hoy he ido andando al instituto y he recogido residuos de la playa…"></textarea><button class="btn dark" id="addAction">Añadir al diario +10 XP</button><div id="actionLog"></div></div><p class="note">Los retos, puntos y notas se guardan localmente en este navegador. No se sincronizan con otras personas ni dispositivos.</p></aside>
 </div>
-
-<section class="section" id="encuesta">
-  <div class="section-heading">
-    <div class="eyebrow">01 — Participación ciudadana</div>
-    <h2>La transformación empieza escuchando.</h2>
-    <p>Queremos conocer tu perspectiva sobre los desafíos y oportunidades de Zarautz. Dedica unos minutos a compartir tus prioridades.</p>
-  </div>
-
-  <div class="start-card" id="startCard">
-    <div class="start-symbol">✳</div>
-    <div class="start-copy">
-      <h3>Tu visión de Zarautz</h3>
-      <p>20 preguntas · Una mirada hacia un futuro sostenible.</p>
-    </div>
-    <button class="btn" id="startBtn">Comenzar encuesta →</button>
-  </div>
-
-  <form id="survey" class="survey-card hidden">
-    <div class="progress-info">
-      <span id="progressText">PREGUNTA 1 DE 20</span>
-      <span id="progressPct">5%</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="question-number" id="questionNumber">CUESTIÓN 01</div>
-    <h3 id="questionTitle"></h3>
-    <div class="options" id="options"></div>
-    <div class="form-actions">
-      <button class="btn btn-outline" style="color:var(--forest);border-color:var(--line)" type="button" id="prevBtn">← Anterior</button>
-      <button class="btn" type="button" id="nextBtn">Siguiente →</button>
-      <button class="btn hidden" type="submit" id="submitBtn">Finalizar encuesta ✓</button>
-    </div>
-    <p class="disclaimer">La encuesta de esta demostración guarda las respuestas en el navegador actual.</p>
-  </form>
-
-  <div class="survey-card success hidden" id="success">
-    <div class="success-mark">✳</div>
-    <h3>Gracias por formar parte del cambio.</h3>
-    <p class="muted">Tus respuestas se han guardado en este navegador.</p>
-    <div class="button-row" style="justify-content:center">
-      <button class="btn" id="resultsBtn">Ver resultados →</button>
-      <button class="btn btn-outline" style="color:var(--forest);border-color:var(--line)" id="againBtn">Volver a responder</button>
-    </div>
-  </div>
 </section>
-
-<section class="results-section" id="resultados">
-  <div class="results-inner">
-    <div class="section-heading">
-      <div class="eyebrow">02 — Una visión compartida</div>
-      <h2>Las prioridades de un futuro sostenible.</h2>
-      <p>Una visualización de ejemplo para mostrar cómo podrían presentarse los resultados de una consulta ciudadana.</p>
-    </div>
-
-    <div class="results-grid">
-      <div class="result-card">
-        <div class="data-tag">DATOS DE DEMOSTRACIÓN</div>
-        <h3 style="margin-top:18px">¿Dónde deberíamos actuar primero?</h3>
-        <p class="muted">Distribución ilustrativa de prioridades.</p>
-        <div id="chart"></div>
-        <p class="disclaimer" id="totalText"></p>
-      </div>
-      <div class="result-card">
-        <div class="eyebrow">La prioridad destacada</div>
-        <h3 id="topName" style="margin-top:18px">Hogares eficientes</h3>
-        <div class="big-number" id="topPct">29%</div>
-        <p class="muted" id="insight">Los datos iniciales son simulados.</p>
-        <hr style="border:0;border-top:1px solid var(--line);margin:25px 0">
-        <p class="disclaimer">Los resultados reales requieren recoger respuestas en un sistema compartido.</p>
-      </div>
-    </div>
-  </div>
+<section class="wrap" id="encuesta">
+<div class="section-head"><div class="eyebrow">02 / TU OPINIÓN</div><h2>Diseñemos el Zarautz del futuro</h2><p>20 preguntas sobre empleo, igualdad, energía, movilidad y medioambiente.</p></div>
+<div id="startCard" class="surface survey-box"><div><h3>Encuesta sostenible</h3><p>Unos 3–5 minutos · Una respuesta por pregunta.</p></div><button class="btn dark" id="startSurvey">Empezar encuesta →</button></div>
+<form id="survey" class="surface hidden"><div class="help" id="progressText">Pregunta 1 de 20</div><div class="progress"><div id="progressBar"></div></div><p class="eyebrow" id="qnum">PREGUNTA 01 / 20</p><h3 class="question-title" id="qtitle"></h3><div class="options" id="options"></div><div class="form-actions"><button class="btn light" type="button" id="prevBtn">← Anterior</button><button class="btn dark" type="button" id="nextBtn">Siguiente →</button><button class="btn dark hidden" type="submit" id="submitBtn">Enviar ✓</button></div><p class="note">Las respuestas se guardan solo en este navegador.</p></form>
+<div id="thanks" class="surface hidden" style="margin-top:15px"><h3>¡Gracias por participar!</h3><p>Tu respuesta se ha guardado en este navegador.</p><button class="btn dark" id="showResults" type="button">Ver resultados ↓</button> <button class="btn light" id="againBtn" type="button">Repetir encuesta</button></div>
 </section>
-
-<section class="section" style="text-align:center">
-  <div class="eyebrow">03 — Nuestro futuro</div>
-  <h2 style="font-size:clamp(32px,4vw,48px)">Un Zarautz mejor se construye juntos.</h2>
-  <p class="muted">Cada opinión suma. Cada pequeño cambio importa.</p>
-  <button class="btn" id="bottomBtn">Compartir mi opinión ↗</button>
+<section class="wrap results" id="resultados">
+<div class="section-head"><div class="eyebrow">03 / RESULTADOS</div><h2>¿Qué Zarautz queremos?</h2><p>Los votos iniciales son datos simulados para la demostración. Las encuestas enviadas desde este navegador se suman al gráfico.</p></div>
+<div class="results-grid"><div class="surface"><h3>Prioridades para el municipio</h3><div id="chart"></div><p class="note" id="totalText"></p></div><div class="surface"><div class="eyebrow">LA IDEA MÁS VOTADA</div><h3 id="insight">Datos de ejemplo</h3><strong id="topPct" style="font:600 48px 'Playfair Display';color:#7ce7d4">35%</strong><p class="note">Porcentaje de la opción más elegida en los datos mostrados.</p></div></div>
+<p class="note">Importante: los datos no son resultados oficiales. Para compartir votos y progreso entre visitantes hace falta una base de datos.</p>
 </section>
 </main>
-
-<footer>
-  <div class="footer-brand">Zarautz Sostenible</div>
-  <p>AGENDA 2030 · PROYECTO EDUCATIVO UF3</p>
-  <p>Construyendo un futuro más justo, verde e inclusivo.</p>
-</footer>
-
+<footer>✳ Zarautz Sostenible · Proyecto educativo · Cada acción cuenta</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const questions = [
-["¿Qué debería mejorar Zarautz para ofrecer más oportunidades a la juventud?",["Más formación y empleo local","Más actividades culturales y deportivas","Más vivienda asequible","Mejor transporte público"]],
-["¿Qué importancia tiene crear empleos relacionados con el medioambiente?",["Muchísima","Bastante","Poca","Ninguna"]],
-["¿Participarías en un curso de formación para empleos verdes?",["Sí, seguro","Quizá, según el curso","No estoy seguro/a","No"]],
-["¿Qué sector sostenible te interesa más?",["Energías renovables","Reparación y reutilización","Movilidad sostenible","Cuidado de la naturaleza"]],
-["¿Crees que todas las personas tienen las mismas oportunidades laborales?",["Sí, en general","No, existen desigualdades","Depende del sector","No lo sé"]],
-["¿Qué ayudaría más a mejorar la igualdad de género?",["Educación y sensibilización","Mejor conciliación familiar y laboral","Medidas contra la discriminación","Más representación de mujeres"]],
-["¿Crees que las tareas de cuidado están suficientemente repartidas?",["Sí, totalmente","Bastante","Poco","No lo había pensado"]],
-["¿Te preocupa el coste de la energía en los hogares?",["Mucho","Bastante","Poco","Nada"]],
-["¿Qué medida energética priorizarías?",["Mejorar el aislamiento de las viviendas","Instalar placas solares","Ayudas a familias vulnerables","Iluminación más eficiente"]],
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const profileKey="zarautzProfileV1",doneKey="zarautzEcoPassportV1",logKey="zarautzActionLogV1",surveyKey="zarautzSostenibleVotos";
+function read(key,fallback){try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch(e){return fallback}}
+function write(key,val){try{localStorage.setItem(key,JSON.stringify(val))}catch(e){}}
+function profile(){return read(profileKey,{name:""})}
+function renderProfile(){const p=profile(),name=p.name||"Invitado";$("accountName").textContent=name;$("avatar").textContent=p.name?p.name.trim().charAt(0).toUpperCase():"?";$("profileName").value=p.name||""}
+$("accountToggle").onclick=()=>$("accountPanel").classList.toggle("open");
+$("saveProfile").onclick=()=>{const name=$("profileName").value.trim();write(profileKey,{name});renderProfile();$("accountPanel").classList.remove("open")};renderProfile();
+const ecoPlaces=[
+{id:"beach",name:"Paseo por la playa",category:"nature",lat:43.2846,lng:-2.1518,xp:20,desc:"Disfruta de la costa y llévate todos tus residuos."},
+{id:"inurritza",name:"Biotopo de Iñurritza",category:"nature",lat:43.2890,lng:-2.1430,xp:30,desc:"Observa el entorno natural sin salir de los caminos."},
+{id:"vista",name:"Parque de Vista Alegre",category:"nature",lat:43.2825,lng:-2.1720,xp:25,desc:"Pasea por el parque y respeta la vegetación."},
+{id:"greenring",name:"Anillo Verde Azul",category:"walk",lat:43.2780,lng:-2.1650,xp:35,desc:"Recorre un tramo caminando y descubre el paisaje."},
+{id:"community",name:"Reto por el barrio",category:"community",lat:43.2810,lng:-2.1700,xp:20,desc:"Haz una pequeña acción comunitaria o ayuda a mantener limpio un espacio."}
+];let completed=read(doneKey,[]);if(!Array.isArray(completed))completed=[];
+let customLog=read(logKey,[]);if(!Array.isArray(customLog))customLog=[];
+let map=null,markers={};
+
+function renderEcoCards(filter="all"){
+ const list=$("ecoGrid");list.innerHTML="";
+ const filtered=ecoPlaces.filter(p=>filter==="all"||p.category===filter);
+ filtered.forEach(p=>{
+  const label=document.createElement("label");label.className="activity-item";
+  const cb=document.createElement("input");cb.type="checkbox";cb.className="check";cb.checked=completed.includes(p.id);
+  cb.onchange=()=>{
+   if(cb.checked){if(!completed.includes(p.id))completed.push(p.id)}
+   else completed=completed.filter(x=>x!==p.id);
+   write(doneKey,completed);
+   renderEcoCards(document.querySelector(".filter.active")?.dataset.filter||"all");
+   updateMapStats();updateMarkers()
+  };
+  const body=document.createElement("span");body.style.flex="1";
+  const title=document.createElement("strong");title.textContent=p.name;
+  const desc=document.createElement("small");desc.textContent=p.desc;
+  body.append(title,desc);
+  const xp=document.createElement("span");xp.className="xp";xp.textContent="+"+p.xp+" XP";
+  label.append(cb,body,xp);list.append(label)
+ });
+ $("listCount").textContent=completed.length+" hechos";
+ if(!filtered.length)list.innerHTML='<div class="empty">No hay retos en este filtro.</div>';
+}
+
+function updateMapStats(){
+ const xp=ecoPlaces.filter(p=>completed.includes(p.id)).reduce((n,p)=>n+p.xp,0)+customLog.length*10;
+ $("placesDone").textContent=completed.length+" / "+ecoPlaces.length;
+ $("ecoPoints").textContent=xp+" XP";
+ $("ecoProgress").textContent=Math.round(completed.length/ecoPlaces.length*100)+"%";
+ $("heroDone").textContent=completed.length+customLog.length;
+ $("heroXP").textContent=xp
+}
+
+function updateMarkers(){
+ ecoPlaces.forEach(p=>{
+  if(markers[p.id]){
+   const done=completed.includes(p.id);
+   markers[p.id].setOpacity(1);
+   markers[p.id].setIcon(L.divIcon({
+    className:"",
+    html:`<div style="width:30px;height:30px;border-radius:50%;background:${done?"#c8a96b":"#1d5945"};color:${done?"#17382c":"white"};border:2px solid white;box-shadow:0 2px 8px #0004;display:grid;place-items:center;font-weight:bold;font-size:14px">${done?"✓":"✳"}</div>`,
+    iconSize:[30,30],iconAnchor:[15,15]
+   }))
+  }
+ })
+}
+
+function initMap(){
+ if(!window.L){
+  $("zarautzMap").innerHTML='<p style="padding:20px">No se ha podido cargar el mapa. Comprueba tu conexión a internet.</p>';
+  return
+ }
+ map=L.map("zarautzMap").setView([43.2845,-2.1585],14);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  maxZoom:19,attribution:'&copy; OpenStreetMap'
+ }).addTo(map);
+ ecoPlaces.forEach(p=>{
+  const marker=L.marker([p.lat,p.lng]).addTo(map);
+  marker.bindPopup(`<strong>${p.name}</strong><br>${p.desc}<br><b>${p.xp} puntos</b><br><a href="#mapa" onclick="document.getElementById('ecoGrid').scrollIntoView({behavior:'smooth'})">Ver retos</a>`);
+  markers[p.id]=marker
+ });
+ updateMarkers();
+ setTimeout(()=>map.invalidateSize(),250)
+}
+
+function renderLog(){
+ const el=$("actionLog");el.innerHTML="";
+ if(!customLog.length){
+  el.innerHTML='<div class="empty">Todavía no has añadido acciones propias.</div>';
+  return
+ }
+ customLog.slice().reverse().forEach(entry=>{
+  const row=document.createElement("div");row.className="log-entry";
+  row.textContent="＋10 XP · "+entry.text+" · "+entry.date;
+  el.append(row)
+ })
+}
+
+$("addAction").onclick=()=>{
+ const text=$("actionText").value.trim();
+ if(!text){alert("Escribe primero la acción que has hecho.");return}
+ customLog.push({text,date:new Date().toLocaleDateString("es-ES")});
+ write(logKey,customLog);$("actionText").value="";
+ renderLog();updateMapStats()
+};
+
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");renderEcoCards(btn.dataset.filter)
+}));
+
+renderEcoCards();renderLog();updateMapStats();initMap();
+
+const questions=[
+["¿Qué debería mejorar Zarautz para que la juventud encuentre oportunidades?",["Más formación y empleo local","Más actividades culturales y deportivas","Más vivienda asequible","Mejor transporte público"]],
+["¿Qué importancia tiene crear empleo relacionado con el medioambiente?",["Muchísima","Bastante","Poca","Ninguna"]],
+["¿Te interesaría participar en un curso de empleo verde?",["Sí, seguro","Quizá, según el curso","No lo sé","No"]],
+["¿Qué sector verde te interesa más?",["Energías renovables","Reparación y reutilización","Movilidad sostenible","Cuidado de espacios naturales"]],
+["¿Crees que todas las personas tienen las mismas oportunidades laborales?",["Sí, en general","No, todavía hay desigualdades","Depende del sector","No tengo suficiente información"]],
+["¿Qué medida ayudaría más a la igualdad de género?",["Educación y sensibilización","Conciliación familiar y laboral","Protocolos contra la discriminación","Más representación de mujeres"]],
+["¿Consideras importante que los cuidados estén mejor repartidos?",["Sí, totalmente","Bastante","Poco","No lo había pensado"]],
+["¿Te preocupa el precio de la energía en los hogares?",["Mucho","Bastante","Poco","Nada"]],
+["¿Qué medida energética priorizarías?",["Aislar mejor las viviendas","Instalar placas solares","Ayudas para familias vulnerables","Cambiar a iluminación eficiente"]],
 ["¿Separáis los residuos para reciclar en casa?",["Siempre","Casi siempre","A veces","Casi nunca"]],
 ["¿Cómo te desplazas habitualmente por Zarautz?",["A pie o en bicicleta","Transporte público","Coche o moto","Combinando varios medios"]],
-["¿Qué facilitaría utilizar menos el coche?",["Más carriles bici seguros","Mejor transporte público","Más zonas peatonales","Más opciones para compartir coche"]],
-["¿Tiene Zarautz suficientes zonas verdes?",["Sí","Más o menos","No, hacen falta más","No lo sé"]],
-["¿Qué ayudaría a proteger la costa de Zarautz?",["Reducir plásticos y residuos","Mejorar la educación ambiental","Proteger dunas y ecosistemas","Todas las anteriores"]],
+["¿Qué facilitaría usar menos el coche?",["Más carriles bici seguros","Mejor transporte público","Más zonas peatonales","Compartir coche y aparcamiento"]],
+["¿Crees que Zarautz tiene suficientes zonas verdes?",["Sí","Más o menos","No, hacen falta más","No lo sé"]],
+["¿Qué acción ayudaría a proteger la costa?",["Reducir plásticos y residuos","Mejorar la educación ambiental","Cuidar dunas y ecosistemas","Todas las anteriores"]],
 ["¿Cuánto te preocupa el cambio climático?",["Mucho","Bastante","Poco","Nada"]],
-["¿Cómo podría ser más sostenible el comercio local?",["Reduciendo envases","Vendiendo más productos locales","Ahorrando energía","Facilitando la reutilización"]],
-["¿Es importante que el ayuntamiento escuche a la ciudadanía?",["Muy importante","Bastante importante","Poco importante","No es prioritario"]],
+["¿Qué debería hacer el comercio local para ser más sostenible?",["Reducir envases","Vender más productos locales","Ahorrar energía","Facilitar la reutilización"]],
+["¿Te parece importante que las decisiones municipales escuchen a la ciudadanía?",["Muy importante","Bastante importante","Poco importante","No es prioritario"]],
 ["¿Participarías en actividades comunitarias de sostenibilidad?",["Sí","Tal vez","Solo si tengo tiempo","No"]],
 ["¿Cuál es el reto social más urgente para Zarautz?",["Empleo y oportunidades","Coste de la energía y vivienda","Igualdad e inclusión","Medioambiente y movilidad"]],
-["¿Qué proyecto pondrías en marcha primero?",["Escuela de empleo verde","Programa de hogares eficientes","Plan local de igualdad","Calles más verdes y movilidad sostenible"]]
+["Si pudieras elegir un proyecto para empezar mañana, ¿cuál sería?",["Escuela de empleo verde","Programa de hogares eficientes","Plan local de igualdad","Calles más verdes y movilidad sostenible"]]
 ];
 
-const projects = [
-  "Escuela de empleo verde",
-  "Hogares eficientes",
-  "Plan de igualdad",
-  "Movilidad y medioambiente"
-];
+const projectNames=["Escuela de empleo verde","Hogares eficientes","Plan de igualdad","Movilidad y medioambiente"];
+const demo=[28,35,19,38];
+let current=0,answers=Array(20).fill(null);
 
-// Datos ficticios para demostrar el diseño.
-const demoVotes = [28,35,19,38];
-const storageKey = "zarautzLuxurySurvey";
-let current = 0;
-let answers = Array(questions.length).fill(null);
-
-const el = id => document.getElementById(id);
-
-function readVotes() {
-  try {
-    const data = JSON.parse(localStorage.getItem(storageKey) || "[]");
-    return Array.isArray(data) ? data : [];
-  } catch {
-    return [];
-  }
+function submissions(){
+ const d=read(surveyKey,[]);
+ return Array.isArray(d)?d:[]
 }
 
-function startSurvey() {
-  current = 0;
-  answers = Array(questions.length).fill(null);
-  el("startCard").classList.add("hidden");
-  el("success").classList.add("hidden");
-  el("survey").classList.remove("hidden");
-  renderQuestion();
-  el("encuesta").scrollIntoView({behavior:"smooth"});
+function begin(){
+ current=0;answers=Array(20).fill(null);
+ $("startCard").classList.add("hidden");
+ $("thanks").classList.add("hidden");
+ $("survey").classList.remove("hidden");
+ renderQuestion();
+ $("encuesta").scrollIntoView({behavior:"smooth"})
 }
 
-function renderQuestion() {
-  const question = questions[current];
-  const percent = Math.round((current + 1) / questions.length * 100);
-
-  el("progressText").textContent =
-    `PREGUNTA ${current + 1} DE ${questions.length}`;
-  el("progressPct").textContent = percent + "%";
-  el("progressFill").style.width = percent + "%";
-  el("questionNumber").textContent =
-    "CUESTIÓN " + String(current + 1).padStart(2,"0");
-  el("questionTitle").textContent = question[0];
-  el("options").replaceChildren();
-
-  question[1].forEach((text,index) => {
-    const label = document.createElement("label");
-    label.className = "option";
-
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "answer";
-    input.value = index;
-    input.checked = answers[current] === index;
-
-    const span = document.createElement("span");
-    span.textContent = text;
-
-    label.append(input,span);
-    el("options").append(label);
-  });
-
-  el("prevBtn").classList.toggle("hidden",current === 0);
-  el("nextBtn").classList.toggle("hidden",current === questions.length - 1);
-  el("submitBtn").classList.toggle("hidden",current !== questions.length - 1);
+function renderQuestion(){
+ const q=questions[current];
+ $("qnum").textContent="PREGUNTA "+String(current+1).padStart(2,"0")+" / 20";
+ $("qtitle").textContent=q[0];
+ $("progressText").textContent="Pregunta "+(current+1)+" de 20";
+ $("progressBar").style.width=((current+1)/20*100)+"%";
+ $("options").innerHTML="";
+ q[1].forEach((text,i)=>{
+  const label=document.createElement("label");label.className="option";
+  const input=document.createElement("input");input.type="radio";input.name="answer";input.value=i;input.checked=answers[current]===i;
+  const span=document.createElement("span");span.textContent=text;
+  label.append(input,span);$("options").append(label)
+ });
+ $("prevBtn").classList.toggle("hidden",current===0);
+ $("nextBtn").classList.toggle("hidden",current===19);
+ $("submitBtn").classList.toggle("hidden",current!==19)
 }
 
-function saveCurrentAnswer() {
-  const selected = document.querySelector('input[name="answer"]:checked');
-  if (!selected) {
-    alert("Selecciona una respuesta antes de continuar.");
-    return false;
-  }
-  answers[current] = Number(selected.value);
-  return true;
+function saveAnswer(){
+ const chosen=document.querySelector('input[name="answer"]:checked');
+ if(!chosen){alert("Selecciona una respuesta para continuar.");return false}
+ answers[current]=Number(chosen.value);
+ return true
 }
 
-function renderChart() {
-  const votes = demoVotes.slice();
-  const saved = readVotes();
-
-  // La última pregunta corresponde a la elección del proyecto prioritario.
-  saved.forEach(response => {
-    const choice = Number(response[19]);
-    if (Number.isInteger(choice) && choice >= 0 && choice < 4) {
-      votes[choice]++;
-    }
-  });
-
-  const total = votes.reduce((sum,value) => sum + value,0);
-  const max = Math.max(...votes);
-  const leader = votes.indexOf(max);
-
-  el("chart").replaceChildren();
-
-  votes.forEach((value,index) => {
-    const row = document.createElement("div");
-    row.className = "chart-row";
-
-    const label = document.createElement("div");
-    label.className = "chart-label";
-
-    const name = document.createElement("span");
-    name.textContent = projects[index];
-
-    const count = document.createElement("span");
-    count.textContent = `${Math.round(value/total*100)}% · ${value}`;
-
-    const track = document.createElement("div");
-    track.className = "chart-track";
-
-    const bar = document.createElement("div");
-    bar.className = "chart-bar";
-    bar.style.width = `${value/max*100}%`;
-
-    label.append(name,count);
-    track.append(bar);
-    row.append(label,track);
-    el("chart").append(row);
-  });
-
-  el("topName").textContent = projects[leader];
-  el("topPct").textContent = Math.round(votes[leader]/total*100) + "%";
-  el("insight").textContent =
-    "Es la opción más elegida en los datos mostrados, que incluyen valores ficticios de demostración.";
-  el("totalText").textContent =
-    `Total mostrado: ${votes.reduce((a,b)=>a+b,0)} votos ilustrativos y locales. ` +
-    `Encuestas guardadas en este navegador: ${saved.length}.`;
+function draw(){
+ const data=demo.slice(),all=submissions();
+ all.forEach(a=>{const n=Number(a[19]);if(n>=0&&n<4)data[n]++});
+ const total=data.reduce((a,b)=>a+b,0),max=Math.max(...data);
+ $("chart").innerHTML="";
+ data.forEach((n,i)=>{
+  const row=document.createElement("div");row.className="chart-row";
+  row.innerHTML='<div class="chart-label"><span></span><span></span></div><div class="track"><div class="fill"></div></div>';
+  row.querySelector(".chart-label span:first-child").textContent=projectNames[i];
+  row.querySelector(".chart-label span:last-child").textContent=Math.round(n/total*100)+"% · "+n;
+  row.querySelector(".fill").style.width=(n/max*100)+"%";
+  $("chart").append(row)
+ });
+ $("totalText").textContent="Datos de ejemplo + "+all.length+" encuesta(s) guardada(s) en este navegador.";
+ const top=data.indexOf(max);
+ $("topPct").textContent=Math.round(max/total*100)+"%";
+ $("insight").textContent='"'+projectNames[top]+'" lidera en esta demostración (datos iniciales simulados).'
 }
 
-el("enterBtn").addEventListener("click",startSurvey);
-el("startBtn").addEventListener("click",startSurvey);
-el("bottomBtn").addEventListener("click",startSurvey);
-el("againBtn").addEventListener("click",startSurvey);
+$("startSurvey").onclick=begin;
+$("againBtn").onclick=begin;
+$("prevBtn").onclick=()=>{if(saveAnswer()){current--;renderQuestion()}};
+$("nextBtn").onclick=()=>{if(saveAnswer()){current++;renderQuestion()}};
 
-el("prevBtn").addEventListener("click",() => {
-  if (saveCurrentAnswer()) {
-    current--;
-    renderQuestion();
-  }
+$("survey").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!saveAnswer())return;
+ if(answers.some(a=>a===null)){alert("Completa todas las preguntas.");return}
+ const all=submissions();all.push(answers.slice());write(surveyKey,all);
+ $("survey").classList.add("hidden");
+ $("thanks").classList.remove("hidden");
+ draw();
+ $("thanks").scrollIntoView({behavior:"smooth",block:"center"})
 });
 
-el("nextBtn").addEventListener("click",() => {
-  if (saveCurrentAnswer()) {
-    current++;
-    renderQuestion();
-  }
-});
-
-el("survey").addEventListener("submit",event => {
-  event.preventDefault();
-
-  if (!saveCurrentAnswer()) return;
-
-  if (answers.some(answer => answer === null)) {
-    alert("Completa todas las preguntas antes de enviar.");
-    return;
-  }
-
-  try {
-    const saved = readVotes();
-    saved.push(answers.slice());
-    localStorage.setItem(storageKey,JSON.stringify(saved));
-
-    el("survey").classList.add("hidden");
-    el("success").classList.remove("hidden");
-    renderChart();
-    el("success").scrollIntoView({behavior:"smooth",block:"center"});
-  } catch {
-    alert("El navegador no ha permitido guardar las respuestas.");
-  }
-});
-
-el("resultsBtn").addEventListener("click",() => {
-  el("resultados").scrollIntoView({behavior:"smooth"});
-});
-
-renderChart();
+$("showResults").onclick=()=>$("resultados").scrollIntoView({behavior:"smooth"});
+draw();
+})();
 </script>
 </body>
 </html>
