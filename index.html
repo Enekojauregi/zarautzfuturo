@@ -2,45 +2,512 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zarautz Sostenible</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zarautz Sostenible</title>
+<style>
+:root {
+  --green: #216b47;
+  --dark: #154b32;
+  --pale: #eaf4e5;
+  --ink: #193d2b;
+  --muted: #63766a;
+  --line: #dfe9dc;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f7f8f2;
+  color: var(--ink);
+  line-height: 1.6;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 7%;
+  border-bottom: 1px solid var(--line);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.logo {
+  font-weight: 800;
+  color: var(--green);
+  font-size: 19px;
+  text-decoration: none;
+}
+nav { display: flex; gap: 20px; }
+nav a {
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #405b49;
+}
+.hero {
+  padding: 78px 7%;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 32px;
+  align-items: center;
+  background: linear-gradient(130deg,#e4f2df,#f8f8f2 65%,#d9ece1);
+}
+.tag {
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color: var(--green);
+}
+h1 {
+  font-size: clamp(40px,6vw,68px);
+  line-height: 1.06;
+  letter-spacing: -2px;
+  margin: 16px 0;
+}
+h1 span { color: var(--green); }
+.hero p:not(.tag) { color: var(--muted); max-width: 570px; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 18px;
+  background: var(--green);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn:hover { background: var(--dark); }
+.btn.alt { background: white; color: var(--green); border: 1px solid var(--line); }
+.art {
+  min-height: 290px;
+  border-radius: 24px;
+  background: linear-gradient(#cde8e6 0 52%,#a7cba0 52% 72%,#469e7b 72% 82%,#55b4c1 82%);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-size: 70px;
+}
+.art:before {
+  content: "☀️";
+  position: absolute;
+  right: 14%;
+  top: 10%;
+  font-size: 52px;
+}
+.art .town { position: absolute; bottom: 19%; font-size: 50px; }
+.art small {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: #ffffffdd;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+section.content { padding: 65px 7%; max-width: 1200px; margin: auto; }
+.heading { max-width: 720px; margin-bottom: 26px; }
+.heading h2 { font-size: clamp(30px,4vw,44px); line-height: 1.15; margin: 10px 0; }
+.muted { color: var(--muted); }
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 14px;
+  background: white;
+  padding: 24px 7%;
+  border-block: 1px solid var(--line);
+}
+.pillar { padding: 10px; }
+.pillar strong,.pillar span { display: block; }
+.pillar span { font-size: 13px; color: var(--muted); }
+.card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 12px 35px #173b2b0b;
+}
+.start-card { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.start-card .desc { flex: 1; min-width: 220px; }
+.start-card h3 { margin: 0 0 5px; }
+.start-card p { margin: 0; color: var(--muted); font-size: 14px; }
+.hidden { display: none !important; }
+.progress-line {
+  height: 8px;
+  background: #e8eee5;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 10px 0 24px;
+}
+.progress-line div { height: 100%; background: #4c9a63; width: 5%; transition: width .2s; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--muted);
+}
+.qnum { font-size: 11px; letter-spacing: 1.5px; font-weight: bold; color: var(--green); }
+#qtitle { font-size: clamp(23px,3vw,32px); line-height: 1.25; margin: 12px 0 22px; }
+.options { display: grid; gap: 10px; }
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.option:hover { background: #f4f8f1; }
+.option:has(input:checked) { border-color: var(--green); background: #edf6eb; }
+.option input { accent-color: var(--green); width: 17px; height: 17px; }
+.form-actions { display: flex; justify-content: space-between; gap: 10px; margin-top: 25px; }
+.note { font-size: 12px; color: var(--muted); margin-top: 16px; }
+.results { background: #eef4e9; }
+.results-grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 18px; }
+.chart-row { margin: 20px 0; }
+.chart-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+.track { height: 11px; background: #e9eee6; border-radius: 20px; overflow: hidden; }
+.fill { height: 100%; background: linear-gradient(90deg,#347b50,#8bc58c); border-radius: 20px; }
+.badge {
+  font-size: 10px;
+  letter-spacing: 1px;
+  background: #fff0cc;
+  color: #795d1d;
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+.footer { background: var(--dark); color: white; text-align: center; padding: 26px; font-size: 13px; }
+@media(max-width:800px) {
+  .hero { grid-template-columns: 1fr; padding: 55px 6%; }
+  .art { min-height: 230px; }
+  .pillars { grid-template-columns: repeat(2,1fr); padding: 22px 6%; }
+  .results-grid { grid-template-columns: 1fr; }
+  section.content { padding: 50px 6%; }
+}
+@media(max-width:500px) {
+  header { padding: 15px 5%; flex-direction: column; align-items: flex-start; }
+  nav { gap: 16px; }
+  .pillars { padding: 18px 5%; }
+  .card { padding: 19px; }
+  .form-actions .btn { padding: 12px 13px; }
+}
+</style>
 </head>
 <body>
-  <header>
-    <a class="logo" href="#inicio">🌱 Zarautz Sostenible</a>
-    <nav>
-      <a href="#inicio">Inicio</a>
-      <a href="#encuesta">Encuesta</a>
-      <a href="#resultados">Resultados</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="inicio">
-      <p class="etiqueta">ZARAUTZ · AGENDA 2030</p>
-      <h1>El futuro de Zarautz<br><span>lo decidimos juntos.</span></h1>
-      <p>Responde a 20 preguntas y ayuda a imaginar un municipio más justo y sostenible.</p>
-      <button onclick="empezar()">Entrar y responder →</button>
-    </section>
+<header>
+  <a class="logo" href="#inicio">🌱 Zarautz Sostenible</a>
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#encuesta">Encuesta</a>
+    <a href="#resultados">Resultados</a>
+  </nav>
+</header>
 
-    <section id="encuesta">
-      <h2>Tu opinión cuenta</h2>
-      <p id="progreso">20 preguntas sobre sostenibilidad.</p>
-      <div id="pregunta">
-        <button onclick="empezar()">Empezar encuesta</button>
+<main>
+<section class="hero" id="inicio">
+  <div>
+    <p class="tag">ZARAUTZ · AGENDA 2030</p>
+    <h1>El futuro de Zarautz <span>lo decidimos juntos.</span></h1>
+    <p>Responde a 20 preguntas sobre empleo, igualdad, energía y medioambiente. Tu opinión ayuda a imaginar un municipio más justo y sostenible.</p>
+    <div class="actions">
+      <button class="btn" id="enterBtn" type="button">Entrar y responder →</button>
+      <a class="btn alt" href="#resultados">Ver resultados</a>
+    </div>
+    <p class="note">⏱ 3–5 minutos · Proyecto educativo</p>
+  </div>
+  <div class="art" aria-label="Ilustración de Zarautz verde">
+    <small>Un Zarautz más verde</small>
+    <div class="town">🏡 🌳 🏡</div>
+    <span>🚲</span>
+  </div>
+</section>
+
+<div class="pillars">
+  <div class="pillar"><strong>🌍 ODS 11</strong><span>Ciudades sostenibles</span></div>
+  <div class="pillar"><strong>⚖️ ODS 5 y 10</strong><span>Igualdad e inclusión</span></div>
+  <div class="pillar"><strong>💼 ODS 8</strong><span>Trabajo decente</span></div>
+  <div class="pillar"><strong>⚡ ODS 7</strong><span>Energía asequible</span></div>
+</div>
+
+<section class="content" id="encuesta">
+  <div class="heading">
+    <p class="tag">01 / PARTICIPA</p>
+    <h2>Tu opinión cuenta</h2>
+    <p class="muted">Marca una respuesta por pregunta. No hay respuestas correctas o incorrectas.</p>
+  </div>
+
+  <div id="startCard" class="card start-card">
+    <div style="font-size:35px">📝</div>
+    <div class="desc">
+      <h3>Encuesta sobre el Zarautz del futuro</h3>
+      <p>20 preguntas sobre retos sociales y sostenibilidad.</p>
+    </div>
+    <button class="btn" id="startSurvey" type="button">Empezar encuesta →</button>
+  </div>
+
+  <form id="survey" class="card hidden">
+    <div class="progress-label">
+      <span id="progressText">Pregunta 1 de 20</span>
+      <span id="progressPct">5%</span>
+    </div>
+    <div class="progress-line"><div id="progressBar"></div></div>
+    <p class="qnum" id="qnum">PREGUNTA 01 / 20</p>
+    <h3 id="qtitle"></h3>
+    <div class="options" id="options"></div>
+    <div class="form-actions">
+      <button class="btn alt" type="button" id="prevBtn">← Anterior</button>
+      <button class="btn" type="button" id="nextBtn">Siguiente →</button>
+      <button class="btn hidden" type="submit" id="submitBtn">Enviar respuestas ✓</button>
+    </div>
+    <p class="note">Las respuestas se guardan solo en este navegador. No se envían a un servidor.</p>
+  </form>
+
+  <div id="thanks" class="card hidden" style="text-align:center;margin-top:20px">
+    <div style="font-size:40px">🎉</div>
+    <h3>¡Gracias por participar!</h3>
+    <p>Tu respuesta se ha guardado en este navegador.</p>
+    <button class="btn" id="showResults" type="button">Ver resultados →</button>
+    <button class="btn alt" id="againBtn" type="button">Responder otra vez</button>
+  </div>
+</section>
+
+<section class="content results" id="resultados">
+  <div class="heading">
+    <p class="tag">02 / RESULTADOS</p>
+    <h2>¿Qué Zarautz queremos?</h2>
+    <p class="muted">Los resultados iniciales son simulados para la presentación. Las respuestas enviadas en este navegador se suman al gráfico.</p>
+  </div>
+  <div class="results-grid">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+        <h3>Prioridades de la comunidad</h3>
+        <span class="badge">DATOS DE EJEMPLO</span>
       </div>
-    </section>
+      <p class="muted">¿Qué proyecto debería ser prioritario?</p>
+      <div id="chart"></div>
+      <p class="note" id="totalText"></p>
+    </div>
+    <div class="card">
+      <div style="font-size:30px">💡</div>
+      <h3>¿Qué nos dicen estos datos?</h3>
+      <p class="muted" id="insight">El gráfico es un ejemplo educativo, no una encuesta real.</p>
+      <h2 id="topPct" style="color:var(--green)">35%</h2>
+      <p class="note">Porcentaje de la opción más elegida en los datos mostrados.</p>
+    </div>
+  </div>
+  <p class="note">Importante: los votos locales no se comparten automáticamente entre distintos dispositivos. Para recoger votos reales de toda la clase se necesita una base de datos.</p>
+</section>
 
-    <section id="resultados">
-      <h2>Resultados de la votación</h2>
-      <p class="aviso">Datos iniciales simulados para la presentación. Las respuestas reales de este navegador se suman al gráfico.</p>
-      <div id="grafico"></div>
-    </section>
-  </main>
+<section class="content" style="text-align:center">
+  <p class="tag">03 / ACTUAR LOCALMENTE</p>
+  <h2>Pequeñas decisiones, grandes cambios.</h2>
+  <p class="muted">La Agenda 2030 empieza en nuestros barrios, hogares, centros de estudio y lugares de trabajo.</p>
+  <button class="btn" id="againBottom" type="button">Participar otra vez →</button>
+</section>
+</main>
 
-  <footer>🌱 Zarautz Sostenible · Proyecto educativo UF3</footer>
-  <script src="script.js"></script>
+<footer class="footer">🌱 Zarautz Sostenible · Proyecto educativo UF3</footer>
+
+<script>
+(function() {
+"use strict";
+
+const questions = [
+["¿Qué debería mejorar Zarautz para que la juventud encuentre oportunidades?",["Más formación y empleo local","Más actividades culturales y deportivas","Más vivienda asequible","Mejor transporte público"]],
+["¿Qué importancia tiene crear empleo relacionado con el medioambiente?",["Muchísima","Bastante","Poca","Ninguna"]],
+["¿Te interesaría participar en un curso de empleo verde?",["Sí, seguro","Quizá, según el curso","No lo sé","No"]],
+["¿Qué sector verde te interesa más?",["Energías renovables","Reparación y reutilización","Movilidad sostenible","Cuidado de espacios naturales"]],
+["¿Crees que todas las personas tienen las mismas oportunidades laborales?",["Sí, en general","No, todavía hay desigualdades","Depende del sector","No tengo suficiente información"]],
+["¿Qué medida ayudaría más a la igualdad de género?",["Educación y sensibilización","Conciliación familiar y laboral","Protocolos contra la discriminación","Más representación de mujeres"]],
+["¿Consideras importante que los cuidados estén mejor repartidos?",["Sí, totalmente","Bastante","Poco","No lo había pensado"]],
+["¿Te preocupa el precio de la energía en los hogares?",["Mucho","Bastante","Poco","Nada"]],
+["¿Qué medida energética priorizarías?",["Aislar mejor las viviendas","Instalar placas solares","Ayudas para familias vulnerables","Cambiar a iluminación eficiente"]],
+["¿Separáis los residuos para reciclar en casa?",["Siempre","Casi siempre","A veces","Casi nunca"]],
+["¿Cómo te desplazas habitualmente por Zarautz?",["A pie o en bicicleta","Transporte público","Coche o moto","Combinando varios medios"]],
+["¿Qué facilitaría usar menos el coche?",["Más carriles bici seguros","Mejor transporte público","Más zonas peatonales","Compartir coche y aparcamiento"]],
+["¿Crees que Zarautz tiene suficientes zonas verdes?",["Sí","Más o menos","No, hacen falta más","No lo sé"]],
+["¿Qué acción ayudaría a proteger la costa?",["Reducir plásticos y residuos","Mejorar la educación ambiental","Cuidar dunas y ecosistemas","Todas las anteriores"]],
+["¿Cuánto te preocupa el cambio climático?",["Mucho","Bastante","Poco","Nada"]],
+["¿Qué debería hacer el comercio local para ser más sostenible?",["Reducir envases","Vender más productos locales","Ahorrar energía","Facilitar la reutilización"]],
+["¿Te parece importante que las decisiones municipales escuchen a la ciudadanía?",["Muy importante","Bastante importante","Poco importante","No es prioritario"]],
+["¿Participarías en actividades comunitarias de sostenibilidad?",["Sí","Tal vez","Solo si tengo tiempo","No"]],
+["¿Cuál es el reto social más urgente para Zarautz?",["Empleo y oportunidades","Coste de la energía y vivienda","Igualdad e inclusión","Medioambiente y movilidad"]],
+["Si pudieras elegir un proyecto para empezar mañana, ¿cuál sería?",["Escuela de empleo verde","Programa de hogares eficientes","Plan local de igualdad","Calles más verdes y movilidad sostenible"]]
+];
+
+const projectNames = [
+  "Escuela de empleo verde",
+  "Hogares eficientes",
+  "Plan de igualdad",
+  "Movilidad y medioambiente"
+];
+const demo = [28,35,19,38];
+const key = "zarautzSostenibleVotos";
+let current = 0;
+let answers = Array(20).fill(null);
+const $ = id => document.getElementById(id);
+
+function submissions() {
+  try {
+    const data = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function begin() {
+  current = 0;
+  answers = Array(20).fill(null);
+  $("startCard").classList.add("hidden");
+  $("thanks").classList.add("hidden");
+  $("survey").classList.remove("hidden");
+  renderQuestion();
+  $("encuesta").scrollIntoView({behavior:"smooth"});
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  $("qnum").textContent = "PREGUNTA " + String(current+1).padStart(2,"0") + " / 20";
+  $("qtitle").textContent = q[0];
+  $("progressText").textContent = "Pregunta " + (current+1) + " de 20";
+  const pct = Math.round((current+1)/20*100);
+  $("progressPct").textContent = pct + "%";
+  $("progressBar").style.width = pct + "%";
+  $("options").innerHTML = "";
+
+  q[1].forEach((text,i) => {
+    const label = document.createElement("label");
+    label.className = "option";
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "answer";
+    input.value = i;
+    input.checked = answers[current] === i;
+    const span = document.createElement("span");
+    span.textContent = text;
+    label.append(input,span);
+    $("options").append(label);
+  });
+
+  $("prevBtn").classList.toggle("hidden",current===0);
+  $("nextBtn").classList.toggle("hidden",current===19);
+  $("submitBtn").classList.toggle("hidden",current!==19);
+}
+
+function save() {
+  const chosen = document.querySelector('input[name="answer"]:checked');
+  if (!chosen) {
+    alert("Selecciona una respuesta para continuar.");
+    return false;
+  }
+  answers[current] = Number(chosen.value);
+  return true;
+}
+
+function draw() {
+  const data = demo.slice();
+  const all = submissions();
+
+  all.forEach(a => {
+    const n = Number(a[19]);
+    if (n >= 0 && n < 4) data[n]++;
+  });
+
+  const total = data.reduce((a,b)=>a+b,0);
+  const max = Math.max(...data);
+  $("chart").innerHTML = "";
+
+  data.forEach((n,i) => {
+    const row = document.createElement("div");
+    row.className = "chart-row";
+    row.innerHTML = '<div class="chart-label"><span></span><span></span></div><div class="track"><div class="fill"></div></div>';
+    row.querySelector(".chart-label span:first-child").textContent = projectNames[i];
+    row.querySelector(".chart-label span:last-child").textContent = Math.round(n/total*100) + "% · " + n;
+    row.querySelector(".fill").style.width = (n/max*100) + "%";
+    $("chart").append(row);
+  });
+
+  $("totalText").textContent =
+    (120+all.length) + " respuestas mostradas: datos de ejemplo + " +
+    all.length + " encuesta(s) en este navegador.";
+
+  const top = data.indexOf(max);
+  $("topPct").textContent = Math.round(max/total*100) + "%";
+  $("insight").textContent =
+    'En esta demostración, "' + projectNames[top] +
+    '" es la opción con más votos. Los valores iniciales son simulados.';
+}
+
+$("enterBtn").addEventListener("click",begin);
+$("startSurvey").addEventListener("click",begin);
+$("againBottom").addEventListener("click",begin);
+$("againBtn").addEventListener("click",begin);
+
+$("prevBtn").addEventListener("click",() => {
+  if (save()) {
+    current--;
+    renderQuestion();
+  }
+});
+
+$("nextBtn").addEventListener("click",() => {
+  if (save()) {
+    current++;
+    renderQuestion();
+  }
+});
+
+$("survey").addEventListener("submit",e => {
+  e.preventDefault();
+  if (!save()) return;
+
+  if (answers.some(a => a === null)) {
+    alert("Completa todas las preguntas.");
+    return;
+  }
+
+  const all = submissions();
+  all.push(answers.slice());
+
+  try {
+    localStorage.setItem(key,JSON.stringify(all));
+  } catch (err) {
+    alert("No se pudo guardar en este navegador.");
+  }
+
+  $("survey").classList.add("hidden");
+  $("thanks").classList.remove("hidden");
+  draw();
+  $("thanks").scrollIntoView({behavior:"smooth",block:"center"});
+});
+
+$("showResults").addEventListener("click",() => {
+  $("resultados").scrollIntoView({behavior:"smooth"});
+});
+
+draw();
+})();
+</script>
 </body>
 </html>
